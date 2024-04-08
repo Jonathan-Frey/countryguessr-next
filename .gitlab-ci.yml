@@ -1,3 +1,5 @@
+image: gitlab.lnu.se:5050/1dv025/pipelines/docker-images
+
 stages:
   - build
   - test
