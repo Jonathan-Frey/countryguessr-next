@@ -1,59 +1,60 @@
-# stages:
-#   - lint
-#   - build
-#   - test
-#   - stage
-#   - deploy
+stages:
+  - build
+  - test
+  - stage
+  - deploy
 
-# lint:
-#   stage: lint
-#   script:
-#     - npm run lint
-#   only:
-#     - branches
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - .next/
+  only:
+    - main
 
-# build:
-#   stage: build
-#   script:
-#     - npm run build
-#   artifacts:
-#     paths:
-#       - build/
-#   only:
-#     - branches
+lint:
+  stage: test
+  script:
+    - npm run lint
+  dependencies:
+    - build
+  only:
+    - main
 
-# test:
-#   stage: test
-#   script:
-#     - npm run test
-#   dependencies:
-#     - build
-#   only:
-#     - branches
+test:
+  stage: test
+  script:
+    - npm run test
+  dependencies:
+    - build
+  only:
+    - main
 
-# stage:
-#   stage: stage
-#   script:
-#     - docker build -t my-app:$CI_COMMIT_REF_SLUG .
-#     - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-#     - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-#     - ssh staging-user@staging-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
-#   environment:
-#     name: staging
-#     url: http://staging.example.com
-#   only:
-#     - branches
+stage:
+  stage: stage
+  script:
+    - docker build -t my-app:$CI_COMMIT_REF_SLUG .
+    - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
+    - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
+    - ssh staging-user@staging-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
+  environment:
+    name: staging
+    url: http://staging.example.com
+  only:
+    - staging
 
-# deploy:
-#   stage: deploy
-#   script:
-#     - docker build -t my-app:$CI_COMMIT_REF_SLUG .
-#     - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-#     - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-#     - ssh production-user@production-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
-#   environment:
-#     name: production
-#     url: http://example.com
-#   when: manual
-#   only:
-#     - master
+deploy:
+  stage: deploy
+  script:
+    - docker build -t my-app:$CI_COMMIT_REF_SLUG .
+    - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
+    - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
+    - ssh production-user@production-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
+  environment:
+    name: production
+    url: http://example.com
+  when: manual
+  only:
+    - production
