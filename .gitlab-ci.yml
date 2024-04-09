@@ -1,4 +1,4 @@
-image: docker:24.0.5
+image: gitlab.lnu.se:5050/1dv025/pipelines/docker-images
 
 stages:
   - build
