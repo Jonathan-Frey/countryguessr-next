@@ -1,4 +1,4 @@
-image: gitlab.lnu.se:5050/1dv025/pipelines/docker-images
+image: docker:24.0.5
 
 stages:
   - build
@@ -53,7 +53,8 @@ stage:
 
 deploy:
   stage: deploy
-
+  services:
+    - - docker:24.0.5-dind
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
