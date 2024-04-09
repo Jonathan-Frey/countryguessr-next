@@ -54,8 +54,6 @@ stage:
 deploy:
   stage: deploy
   image: docker:19.03.12
-  services:
-    - docker:19.03.12-dind
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
