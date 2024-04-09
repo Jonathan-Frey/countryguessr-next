@@ -18,6 +18,7 @@ build:
   artifacts:
     paths:
       - .next/
+      - node_modules/
   only:
     - main
 
