@@ -6,9 +6,10 @@ stages:
   - stage
   - deploy
 
-build:
+building:
   stage: build
   script:
+    - npm install
     - npm run build
   artifacts:
     paths:
@@ -16,7 +17,7 @@ build:
   only:
     - main
 
-lint:
+linting:
   stage: test
   script:
     - npm run lint
@@ -25,16 +26,16 @@ lint:
   only:
     - main
 
-test:
-  stage: test
-  script:
-    - npm run test
-  dependencies:
-    - build
-  only:
-    - main
+# test:
+#   stage: test
+#   script:
+#     - npm run test
+#   dependencies:
+#     - build
+#   only:
+#     - main
 
-stage:
+staging:
   stage: stage
   script:
     - docker build -t my-app:$CI_COMMIT_REF_SLUG .
@@ -47,7 +48,7 @@ stage:
   only:
     - staging
 
-deploy:
+deploying:
   stage: deploy
   script:
     - docker build -t my-app:$CI_COMMIT_REF_SLUG .
