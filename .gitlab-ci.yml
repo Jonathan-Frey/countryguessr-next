@@ -53,14 +53,23 @@ stage:
 
 deploy:
   stage: deploy
+
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - chmod 400 "$PROD_ACCESS_TOKEN"
+  - ssh-add "$PROD_ACCESS_TOKEN"
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
   script:
-    - docker build -t my-app:$CI_COMMIT_REF_SLUG .
-    - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-    - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-    - ssh production-user@production-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
+    - docker build -t countryguessr-next:$CI_COMMIT_REF_SLUG .
+    - docker tag countryguessr-next:$CI_COMMIT_REF_SLUG ${REGISTRY_HOST}/countryguessr-next:$CI_COMMIT_REF_SLUG
+    - echo $DO_ACCESS_TOKEN | docker login $REGISTRY_HOST -u $DO_EMAIL --password-stdin
+    - docker push ${REGISTRY_HOST}/countryguessr-next:$CI_COMMIT_REF_SLUG
+    - echo $DO_ACCESS_TOKEN | ssh jf223rf@${PROD_HOST} "docker login -u $DO_EMAIL --password-stdin $REGISTRY_HOST && docker pull ${REGISTRY_HOST}/countryguessr-next:$CI_COMMIT_REF_SLUG && docker run --rm -d countryguessr-next:$CI_COMMIT_REF_SLUG
   environment:
     name: production
-    url: http://example.com
-  when: manual
+    url: $PROD_HOST
   only:
     - production
