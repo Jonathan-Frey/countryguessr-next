@@ -8,7 +8,11 @@ stages:
 
 build:
   stage: build
+  variables:
+    NEXTAUTH_URL: http://localhost:3000
+    DATABASE_URL: mysql://root:secret@mysql:3306/test
   script:
+    - echo $DATABASE_URL
     - npm install
     - npm run build
   artifacts:
@@ -28,6 +32,11 @@ lint:
 
 test:
   stage: test
+    variables:
+    MYSQL_DATABASE: test
+    MYSQL_ROOT_PASSWORD: secret # This should be changed
+  services:
+    - mysql:latest
   script:
     - npm run test
   dependencies:
