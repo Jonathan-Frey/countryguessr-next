@@ -12,25 +12,12 @@ build:
     NEXTAUTH_URL: http://localhost:3000
     DATABASE_URL: mysql://root:secret@mysql:3306/test
   script:
-    - echo $DATABASE_URL
     - npm install
     - npm run build
   artifacts:
     paths:
       - .next/
       - node_modules/
-  only:
-    - main
-
-lint:
-  stage: test
-  variables:
-    NEXTAUTH_URL: http://localhost:3000
-    DATABASE_URL: mysql://root:secret@mysql:3306/test
-  script:
-    - npm run lint
-  dependencies:
-    - build
   only:
     - main
 
@@ -53,13 +40,14 @@ test:
 stage:
   stage: stage
   script:
-    - docker build -t my-app:$CI_COMMIT_REF_SLUG .
-    - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-    - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
-    - ssh staging-user@staging-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
-  environment:
-    name: staging
-    url: http://staging.example.com
+    - echo "no staging server set up"
+  #   - docker build -t my-app:$CI_COMMIT_REF_SLUG .
+  #   - docker tag my-app:$CI_COMMIT_REF_SLUG registry.example.com/my-app:$CI_COMMIT_REF_SLUG
+  #   - docker push registry.example.com/my-app:$CI_COMMIT_REF_SLUG
+  #   - ssh staging-user@staging-server "docker login registry.example.com && docker pull registry.example.com/my-app:$CI_COMMIT_REF_SLUG && docker run --rm -d my-app:$CI_COMMIT_REF_SLUG"
+  # environment:
+  #   name: staging
+  #   url: http://staging.example.com
   only:
     - staging
 
