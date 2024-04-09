@@ -32,9 +32,9 @@ lint:
 
 test:
   stage: test
-    variables:
+  variables:
     MYSQL_DATABASE: test
-    MYSQL_ROOT_PASSWORD: secret # This should be changed
+    MYSQL_ROOT_PASSWORD: secret
   services:
     - mysql:latest
   script:
