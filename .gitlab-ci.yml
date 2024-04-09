@@ -24,6 +24,9 @@ build:
 
 lint:
   stage: test
+  variables:
+    NEXTAUTH_URL: http://localhost:3000
+    DATABASE_URL: mysql://root:secret@mysql:3306/test
   script:
     - npm run lint
   dependencies:
@@ -36,6 +39,8 @@ test:
   variables:
     MYSQL_DATABASE: test
     MYSQL_ROOT_PASSWORD: secret
+    NEXTAUTH_URL: http://localhost:3000
+    DATABASE_URL: mysql://root:secret@mysql:3306/test
   services:
     - mysql:latest
   script:
