@@ -26,14 +26,14 @@ linting:
   only:
     - main
 
-# test:
-#   stage: test
-#   script:
-#     - npm run test
-#   dependencies:
-#     - build
-#   only:
-#     - main
+test:
+  stage: test
+  script:
+    - npm run test
+  dependencies:
+    - build
+  only:
+    - main
 
 staging:
   stage: stage
