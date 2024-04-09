@@ -54,13 +54,13 @@ stage:
 deploy:
   stage: deploy
 
-before_script:
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - chmod 400 "$PROD_ACCESS_TOKEN"
-  - ssh-add "$PROD_ACCESS_TOKEN"
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - chmod 400 "$PROD_ACCESS_TOKEN"
+    - ssh-add "$PROD_ACCESS_TOKEN"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
   script:
     - docker build -t countryguessr-next:$CI_COMMIT_REF_SLUG .
