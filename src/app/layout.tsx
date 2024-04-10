@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata = {
   title: 'GountryGuessr',
-  description: 'Guees country based on multiple themes',
+  description: 'Guess country based on multiple themes',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 }
 

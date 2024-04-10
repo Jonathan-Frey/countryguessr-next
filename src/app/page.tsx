@@ -20,7 +20,6 @@ export default async function Home() {
         ) : (
           <p className="text-2xl text-black">Loading tRPC query...</p>
         )}
-
         <div className="flex flex-col items-center justify-center gap-4">
           <p className="text-center text-2xl text-black">
             {session && <span>Logged in as {session.user?.name}</span>}
