@@ -18,8 +18,9 @@ build:
     paths:
       - .next/
       - node_modules/
-  only:
-    - main
+  except:
+    - staging
+    - production
 
 test:
   stage: test
@@ -34,8 +35,9 @@ test:
     - npm run test
   dependencies:
     - build
-  only:
-    - main
+  except:
+    - staging
+    - production
 
 stage:
   stage: stage

@@ -38,7 +38,7 @@ export default function RootLayout({
   )
 }
 
-export function Nav() {
+function Nav() {
   return (
     <header className="flex w-full justify-center">
       <nav className="w-full max-w-2xl">
