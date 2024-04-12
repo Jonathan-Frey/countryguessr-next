@@ -39,6 +39,18 @@ test:
     - staging
     - production
 
+push stage image:
+  stage: stage
+  image:
+  name: gcr.io/kaniko-project/executor:v1.9.0-debug
+  entrypoint: ['']
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/countryguessr-staging:${CI_COMMIT_TAG:-latest}"
+  only: staging
+
 stage:
   stage: stage
   script:
@@ -52,16 +64,26 @@ stage:
   #   url: http://staging.example.com
   only:
     - staging
+  dependencies:
+    - push stage image
+
+push production image:
+  stage: deploy
+  image:
+  name: gcr.io/kaniko-project/executor:v1.9.0-debug
+  entrypoint: ['']
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/countryguessr:${CI_COMMIT_TAG:-latest}"
+  only: production
 
 deploy:
   stage: deploy
-  image: docker:24.0.5
-  services:
-    - docker:24.0.5-dind
-  variables:
-    DOCKER_TLS_CERTDIR: '/certs'
+  image: alpine:3.19
   before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - apk update && apk add openssh-client
     - eval $(ssh-agent -s)
     - chmod 400 "$PROD_ACCESS_TOKEN"
     - ssh-add "$PROD_ACCESS_TOKEN"
@@ -69,13 +91,11 @@ deploy:
     - chmod 700 ~/.ssh
 
   script:
-    - docker build -t countryguessr-next:$CI_COMMIT_REF_SLUG .
-    - docker tag countryguessr-next:$CI_COMMIT_REF_SLUG ${REGISTRY_HOST}/countryguessr-next:$CI_COMMIT_REF_SLUG
-    - echo $DO_ACCESS_TOKEN | docker login $REGISTRY_HOST -u $DO_EMAIL --password-stdin
-    - docker push ${REGISTRY_HOST}/countryguessr-next:$CI_COMMIT_REF_SLUG
     - echo $DO_ACCESS_TOKEN | ssh jf223rf@${PROD_HOST} "docker login -u $DO_EMAIL --password-stdin $REGISTRY_HOST && docker pull ${REGISTRY_HOST}/countryguessr-next:$CI_COMMIT_REF_SLUG && docker run --rm -d countryguessr-next:$CI_COMMIT_REF_SLUG
   environment:
     name: production
     url: $PROD_HOST
   only:
     - production
+  dependencies:
+    - push production image
