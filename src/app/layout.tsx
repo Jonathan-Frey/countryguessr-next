@@ -46,8 +46,8 @@ export function Nav() {
           <li>
             <Link href="./">
               <Image
-                alt="bug report icon"
-                src="/bug-report.svg"
+                alt="placeholder icon"
+                src="/placeholder.svg"
                 width={32}
                 height={32}
               ></Image>

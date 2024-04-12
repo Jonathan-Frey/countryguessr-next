@@ -6,9 +6,14 @@ export default function CategoryButton(props: {
   pathName: string
 }) {
   return (
-    <li className="w-full border-b-2 bg-neutral-100 text-5xl hover:scale-105 hover:bg-neutral-200">
+    <li className="w-full rounded-md border-e border-s border-t border-neutral-200 bg-neutral-100 text-5xl shadow-lg hover:scale-105 hover:bg-neutral-200 hover:transition-all">
       <Link href={`./${props.pathName}`} className="flex gap-8 p-2">
-        <Image alt="torii gate icon" src="/torii.svg" width={48} height={48} />
+        <Image
+          alt="placeholder icon"
+          src="/placeholder.svg"
+          width={48}
+          height={48}
+        />
         <p>{props.displayName}</p>
       </Link>
     </li>
