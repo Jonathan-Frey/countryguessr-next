@@ -42,8 +42,8 @@ test:
 push stage image:
   stage: stage
   image:
-  name: gcr.io/kaniko-project/executor:v1.9.0-debug
-  entrypoint: ['']
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: ['']
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
@@ -70,8 +70,8 @@ stage:
 push production image:
   stage: deploy
   image:
-  name: gcr.io/kaniko-project/executor:v1.9.0-debug
-  entrypoint: ['']
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: ['']
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
