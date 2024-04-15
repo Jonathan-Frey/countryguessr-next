@@ -68,7 +68,7 @@ stage:
     - ssh-add "$STAGE_ACCESS_TOKEN"
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan -H ${PROD_HOST} >> ~/.ssh/known_hosts
+    - ssh-keyscan -H ${STAGE_HOST} >> ~/.ssh/known_hosts
 
   script:
     - ssh ubuntu@$STAGE_HOST "
