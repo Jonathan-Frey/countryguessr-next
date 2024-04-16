@@ -6,7 +6,10 @@ export default function CategoryButton(props: {
   pathName: string
 }) {
   return (
-    <li className="w-full rounded-md border-e border-s border-t border-neutral-200 bg-neutral-100 text-5xl shadow-lg hover:scale-105 hover:bg-neutral-200 hover:transition-all">
+    <li
+      className="w-full rounded-md border-e border-s border-t border-neutral-200 bg-neutral-100 text-5xl shadow-lg hover:scale-105 hover:bg-neutral-200 hover:transition-all"
+      data-testid="category-button"
+    >
       <Link href={`./${props.pathName}`} className="flex gap-8 p-2">
         <Image
           alt="placeholder icon"
