@@ -7,7 +7,7 @@ export default function CategoryButton(props: {
 }) {
   return (
     <li
-      className=" hover:bg-secondary w-full rounded-md border-b-2 text-5xl hover:scale-105 hover:transition-all"
+      className=" w-full rounded-md border-b-2 border-tertiary text-5xl hover:scale-105 hover:bg-secondary hover:transition-all"
       data-testid="category-button"
     >
       <Link href={`./${props.pathName}`} className="flex gap-8 p-2">

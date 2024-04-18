@@ -11,7 +11,7 @@ interface CategoryListProps {
 
 export default function CategoryList({ categories }: CategoryListProps) {
   return (
-    <ul className="m-2 flex w-full max-w-lg flex-col gap-2">
+    <ul className="m-2 flex w-full max-w-screen-2xl flex-col">
       {categories.map((category) => {
         return (
           <CategoryButton
