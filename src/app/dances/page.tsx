@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Video from 'next-video'
 
 export default function Page() {
   return (
@@ -38,13 +39,10 @@ export default function Page() {
             </button>
           </li>
         </ul>
-        <Image
-          src="/bolognese.jpg"
-          alt="A food dish"
-          height={512}
-          width={512}
-          className="w-full rounded-xl"
-        ></Image>
+        <Video
+          src="https://www.youtube.com/watch?v=QvccyANdjnk"
+          className="overflow-hidden rounded-xl"
+        ></Video>
       </div>
       <div className="mt-2 w-full lg:mt-8 lg:w-1/2">
         <input
