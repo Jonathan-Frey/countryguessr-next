@@ -2,8 +2,8 @@ import Image from 'next/image'
 
 export default function Page() {
   return (
-    <main className="flex w-full max-w-screen-2xl grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4">
-      <div className="flex w-full flex-col lg:w-2/5">
+    <main className="flex w-full max-w-screen-2xl grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4 lg:px-36">
+      <div className="flex w-full flex-col lg:w-1/2">
         <ul className="flex self-end">
           <li className="flex h-full items-center p-1">
             <button
@@ -46,7 +46,7 @@ export default function Page() {
           className="w-full rounded-xl"
         ></Image>
       </div>
-      <div className="mt-2 w-full lg:mt-8 lg:w-3/5">
+      <div className="mt-2 w-full lg:mt-8 lg:w-1/2">
         <input
           type="text"
           name="country-search"
