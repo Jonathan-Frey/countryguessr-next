@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${poppins.variable} flex h-screen flex-col bg-neutral-100`}
+        className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
         <TRPCReactProvider>
           <Nav />
@@ -41,7 +41,7 @@ export default function RootLayout({
 function Nav() {
   return (
     <header className="flex w-full justify-center">
-      <nav className="w-full max-w-2xl">
+      <nav className="w-full max-w-screen-2xl">
         <ul className="flex w-full items-center justify-between px-4 py-2">
           <li>
             <Link href="./">
