@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Video from 'next-video'
+import getStarted from '/videos/get-started.mp4'
 
 export default function Page() {
   return (
@@ -39,10 +40,7 @@ export default function Page() {
             </button>
           </li>
         </ul>
-        <Video
-          src="https://www.youtube.com/watch?v=QvccyANdjnk"
-          className="overflow-hidden rounded-xl"
-        ></Video>
+        <Video src={getStarted} className="overflow-hidden rounded-xl"></Video>
       </div>
       <div className="mt-2 w-full lg:mt-8 lg:w-1/2">
         <input
