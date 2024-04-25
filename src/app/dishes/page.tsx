@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import CountryInput from '@/app/_components/CountryInput'
 
 export default function Page() {
   return (
@@ -47,13 +48,7 @@ export default function Page() {
         ></Image>
       </div>
       <div className="mt-2 w-full lg:mt-8 lg:w-1/2">
-        <input
-          type="text"
-          name="country-search"
-          id="country-search"
-          placeholder="Enter a Country Name"
-          className="w-full rounded-md border-2 border-tertiary px-2 py-1 text-lg"
-        />
+        <CountryInput></CountryInput>
         <ul className="flex flex-col p-2 text-base">
           <li className="flex border-b border-tertiary py-1">
             <h3 className="w-1/2">Sweden</h3>

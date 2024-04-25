@@ -2,7 +2,7 @@
 
 import { distanceFormatter } from '@/lib/formatters'
 import { api } from '@/trpc/server'
-import { getDistance, getCompassDirection } from 'geolib'
+import { getDistance, getCompassDirection, getRhumbLineBearing } from 'geolib'
 
 export async function checkAnswer(countryName: string) {
   const correctCountry = {
@@ -14,8 +14,12 @@ export async function checkAnswer(countryName: string) {
     name: countryName,
   })
 
-  const response: { distance?: string; correct?: boolean; direction?: string } =
-    {}
+  const response: {
+    distance?: string
+    correct?: boolean
+    direction?: string
+    bearing?: number
+  } = {}
 
   if (guessedCountry) {
     response.distance = distanceFormatter(
@@ -32,6 +36,16 @@ export async function checkAnswer(countryName: string) {
       ),
     )
     response.direction = getCompassDirection(
+      {
+        latitude: guessedCountry.latitude,
+        longitude: guessedCountry.longitude,
+      },
+      {
+        latitude: correctCountry.latitude,
+        longitude: correctCountry.longitude,
+      },
+    )
+    response.bearing = getRhumbLineBearing(
       {
         latitude: guessedCountry.latitude,
         longitude: guessedCountry.longitude,
