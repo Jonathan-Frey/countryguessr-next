@@ -1,14 +1,21 @@
 'use client'
 
 import { api } from '@/trpc/react'
-import { useEffect, useState } from 'react'
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { checkAnswer } from '@/app/actions/guesses'
-export default function CountryInput() {
+import { type Guess } from '@/app/_components/GuessGame'
+
+export default function CountryInput(props: {
+  guesses: Guess[]
+  setGuesses: Dispatch<SetStateAction<Guess[]>>
+}) {
   const [inputValue, setInputValue] = useState('')
   const [countryNames, setCountryNames] = useState<string[]>([])
   const [matches, setMatches] = useState<string[]>([])
 
-  const { data } = api.country.getAllNames.useQuery()
+  const { data } = api.country.getAllNames.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  })
 
   useEffect(() => {
     if (data) {
@@ -30,8 +37,8 @@ export default function CountryInput() {
 
   async function submitAnswer(countryName: string) {
     setInputValue('')
-    const result = await checkAnswer(countryName)
-    console.log(result)
+    const response = await checkAnswer(countryName)
+    response && props.setGuesses([...props.guesses, response])
   }
 
   async function handleKeyDown(e: React.KeyboardEvent) {
