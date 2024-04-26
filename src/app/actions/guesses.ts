@@ -1,12 +1,12 @@
 'use server'
 
 import { distanceFormatter } from '@/lib/formatters'
-import { getDistance, getCompassDirection, getRhumbLineBearing } from 'geolib'
+import { getDistance, getRhumbLineBearing } from 'geolib'
 import { db } from '@/server/db'
 
 export async function checkAnswer(countryName: string) {
   const correctCountry = {
-    name: 'sweden',
+    name: 'Sweden',
     latitude: 62,
     longitude: 15,
   }
@@ -47,10 +47,7 @@ export async function checkAnswer(countryName: string) {
       country: guessedCountry.name,
       distance,
       bearing,
-      correct:
-        guessedCountry.name === correctCountry.name.toLowerCase()
-          ? true
-          : false,
+      correct: guessedCountry.name === correctCountry.name ? true : false,
       flag: guessedCountry.smallFlag,
     }
 

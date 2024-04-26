@@ -1,13 +1,13 @@
 'use client'
 
 import { api } from '@/trpc/react'
-import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { checkAnswer } from '@/app/actions/guesses'
 import { type Guess } from '@/app/_components/GuessGame'
 
 export default function CountryInput(props: {
   guesses: Guess[]
-  setGuesses: Dispatch<SetStateAction<Guess[]>>
+  setGuesses: (guesses: Guess[]) => void
 }) {
   const [inputValue, setInputValue] = useState('')
   const [countryNames, setCountryNames] = useState<string[]>([])
@@ -25,15 +25,24 @@ export default function CountryInput(props: {
 
   useEffect(() => {
     if (inputValue.length > 0) {
-      setMatches(
-        countryNames.filter((countryName) =>
-          countryName.toLowerCase().includes(inputValue.toLowerCase()),
-        ),
+      const allMatches = countryNames.filter((countryName) =>
+        countryName.toLowerCase().includes(inputValue.toLowerCase()),
       )
+
+      const notGuessedMatches = allMatches.filter((match) => {
+        let isNotGuessed = true
+        props.guesses.forEach((guess) => {
+          if (match.toLowerCase() === guess.country.toLowerCase()) {
+            isNotGuessed = false
+          }
+        })
+        return isNotGuessed
+      })
+      setMatches(notGuessedMatches)
     } else {
       setMatches([])
     }
-  }, [inputValue, countryNames])
+  }, [inputValue, countryNames, props.guesses])
 
   async function submitAnswer(countryName: string) {
     setInputValue('')
