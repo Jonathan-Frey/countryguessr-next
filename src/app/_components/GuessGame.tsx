@@ -70,8 +70,7 @@ function useGuesses(): [Guess[], (guesses: Guess[]) => void] {
 
 export default function GuessGame(props: { children?: ReactNode }) {
   const [guesses, setGuesses] = useGuesses()
-  const [round, setRound] = useState(1)
-  const [gameOver, setGameOver] = useState(false)
+  const [gameState, setGameState] = useState({ gameOver: false, won: false })
 
   useEffect(() => {
     let hasCorrectGuess = false
@@ -79,22 +78,26 @@ export default function GuessGame(props: { children?: ReactNode }) {
       guess.correct && (hasCorrectGuess = true)
     })
     hasCorrectGuess
-      ? setRound((prev) => prev + 1)
-      : guesses.length > 5 && setGameOver(true)
+      ? setGameState({ gameOver: true, won: true })
+      : guesses.length > 5 &&
+        setGameState((prevState) => ({ ...prevState, gameOver: true }))
   }, [guesses])
 
   return (
     <main className="flex w-full max-w-screen-2xl grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4 lg:px-36">
-      {gameOver ? (
+      {gameState.gameOver ? (
         <div>
-          <h1>Game over</h1>
-          {props.children}
+          <h1 className="text-xl">Game over</h1>
+          <p>
+            {gameState.won
+              ? 'Congratulations, you guessed the correct country!'
+              : 'Sorry, you did not guess the correct country in six tries. Better luck tomorrow!'}
+          </p>
         </div>
       ) : (
         <>
           <div className="flex w-full flex-col lg:w-1/2">
-            <div className="flex justify-between">
-              <h2>Round {round}/3</h2>
+            <div className="flex justify-end">
               <ul className="flex">
                 <li className="flex h-full items-center p-1">
                   <button

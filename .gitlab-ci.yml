@@ -48,11 +48,6 @@ push stage image:
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
-      --build-arg DATABASE_URL=$DATABASE_URL
-      --build-arg NEXTAUTH_SECRET=$NEXTAUTH_SECRET
-      --build-arg NEXTAUTH_URL=$NEXTAUTH_URL
-      --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-      --build-arg GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/countryguessr-staging:${CI_COMMIT_TAG:-latest}"
   only:
@@ -75,7 +70,7 @@ stage:
       docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin <<<$CI_REGISTRY_PASSWORD &&
       docker stop countryguessr-container || true &&
       docker images ${CI_REGISTRY_IMAGE}/countryguessr-staging -q | xargs -r docker rmi -f &&
-      docker run --name countryguessr-container --rm -d -p 3000:3000 ${CI_REGISTRY_IMAGE}/countryguessr-staging:${CI_COMMIT_TAG:-latest}"
+      docker run --env DATABASE_URL="$DATABASE_URL" --name countryguessr-container --rm -d -p 3000:3000 ${CI_REGISTRY_IMAGE}/countryguessr-staging:${CI_COMMIT_TAG:-latest}"
   only:
     - staging
   dependencies:
@@ -89,11 +84,6 @@ push production image:
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
-      --build-arg DATABASE_URL=$DATABASE_URL
-      --build-arg NEXTAUTH_SECRET=$NEXTAUTH_SECRET
-      --build-arg NEXTAUTH_URL=$NEXTAUTH_URL
-      --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-      --build-arg GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/countryguessr:${CI_COMMIT_TAG:-latest}"
   only:
@@ -116,7 +106,7 @@ deploy:
       docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin <<<$CI_REGISTRY_PASSWORD &&
       docker stop countryguessr-container || true &&
       docker images ${CI_REGISTRY_IMAGE}/countryguessr -q | xargs -r docker rmi -f &&
-      docker run --name countryguessr-container --rm -d -p 3000:3000 ${CI_REGISTRY_IMAGE}/countryguessr:${CI_COMMIT_TAG:-latest}"
+      docker run --env DATABASE_URL="$DATABASE_URL" --name countryguessr-container --rm -d -p 3000:3000 ${CI_REGISTRY_IMAGE}/countryguessr:${CI_COMMIT_TAG:-latest}"
   environment:
     name: production
     url: $PROD_HOST
