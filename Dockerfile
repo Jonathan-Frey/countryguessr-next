@@ -24,25 +24,12 @@ COPY . .
 # Generate Prisma client
 RUN npm run postinstall
 
+ENV SKIP_ENV_VALIDATION 1
+
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
-
-ARG NEXTAUTH_SECRET
-ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
-
-ARG NEXTAUTH_URL
-ENV NEXTAUTH_URL=$NEXTAUTH_URL
-
-ARG GOOGLE_CLIENT_ID
-ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-
-ARG GOOGLE_CLIENT_SECRET
-ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
@@ -56,6 +43,9 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
+
+ENV SKIP_ENV_VALIDATION 1
+
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 

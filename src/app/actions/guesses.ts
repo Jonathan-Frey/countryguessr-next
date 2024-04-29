@@ -1,28 +1,25 @@
 'use server'
 
 import { distanceFormatter } from '@/lib/formatters'
-import { api } from '@/trpc/server'
-import { getDistance, getCompassDirection, getRhumbLineBearing } from 'geolib'
+import { getDistance, getRhumbLineBearing } from 'geolib'
+import { db } from '@/server/db'
 
 export async function checkAnswer(countryName: string) {
   const correctCountry = {
-    name: 'sweden',
+    name: 'Sweden',
     latitude: 62,
     longitude: 15,
   }
-  const guessedCountry = await api.country.getFirstMatchingCountry({
-    name: countryName,
+  const guessedCountry = await db.country.findFirst({
+    where: {
+      name: {
+        equals: countryName,
+      },
+    },
   })
 
-  const response: {
-    distance?: string
-    correct?: boolean
-    direction?: string
-    bearing?: number
-  } = {}
-
   if (guessedCountry) {
-    response.distance = distanceFormatter(
+    const distance = distanceFormatter(
       getDistance(
         {
           latitude: correctCountry.latitude,
@@ -35,7 +32,7 @@ export async function checkAnswer(countryName: string) {
         1000,
       ),
     )
-    response.direction = getCompassDirection(
+    const bearing = getRhumbLineBearing(
       {
         latitude: guessedCountry.latitude,
         longitude: guessedCountry.longitude,
@@ -45,22 +42,15 @@ export async function checkAnswer(countryName: string) {
         longitude: correctCountry.longitude,
       },
     )
-    response.bearing = getRhumbLineBearing(
-      {
-        latitude: guessedCountry.latitude,
-        longitude: guessedCountry.longitude,
-      },
-      {
-        latitude: correctCountry.latitude,
-        longitude: correctCountry.longitude,
-      },
-    )
-  }
-  if (countryName.toLowerCase() === correctCountry.name.toLowerCase()) {
-    response.correct = true
-  } else {
-    response.correct = false
-  }
 
-  return response
+    const data = {
+      country: guessedCountry.name,
+      distance,
+      bearing,
+      correct: guessedCountry.name === correctCountry.name ? true : false,
+      flag: guessedCountry.smallFlag,
+    }
+
+    return data
+  }
 }
