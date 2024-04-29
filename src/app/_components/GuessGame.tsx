@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import CountryInput from '@/app/_components/CountryInput'
 import { useEffect, useState, type ReactNode } from 'react'
 import GuessList from '@/app/_components/GuessList'
+import HintList from '@/app/_components/HintList'
 export interface Guess {
   country: string
   distance: string
@@ -98,40 +98,7 @@ export default function GuessGame(props: { children?: ReactNode }) {
         <>
           <div className="flex w-full flex-col lg:w-1/2">
             <div className="flex justify-end">
-              <ul className="flex">
-                <li className="flex h-full items-center p-1">
-                  <button
-                    type="button"
-                    className="h-6 w-6 rounded-full border-2 border-tertiary hover:bg-secondary"
-                  ></button>
-                </li>
-                <li className="flex h-full items-center p-1">
-                  <button
-                    type="button"
-                    className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-tertiary hover:bg-secondary"
-                  >
-                    <Image
-                      src="/lock.svg"
-                      alt="locked lock"
-                      height={16}
-                      width={16}
-                    ></Image>
-                  </button>
-                </li>
-                <li className="flex h-full items-center p-1">
-                  <button
-                    type="button"
-                    className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-tertiary hover:bg-secondary"
-                  >
-                    <Image
-                      src="/lock.svg"
-                      alt="locked lock"
-                      height={16}
-                      width={16}
-                    ></Image>
-                  </button>
-                </li>
-              </ul>
+              <HintList guesses={guesses} />
             </div>
             {props.children}
           </div>
