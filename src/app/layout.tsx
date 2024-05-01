@@ -37,7 +37,6 @@ export default function RootLayout({
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
         <TRPCReactProvider>
-          <h1>Umami ID: {process.env.NEXT_PUBLIC_UMAMI_ID}</h1>
           <Nav />
           {children}
         </TRPCReactProvider>
