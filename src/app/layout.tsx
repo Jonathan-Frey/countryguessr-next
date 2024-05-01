@@ -26,10 +26,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Script
-        src="https://eu.umami.is/script.js"
-        data-website-id="59767cfa-5e68-455e-a38b-cd5f3f12cb4a"
-      ></Script>
+      {process.env.NODE_ENV === 'production' && (
+        <Script
+          src="https://eu.umami.is/script.js"
+          data-website-id={process.env.UMAMI_ID}
+        ></Script>
+      )}
       <body
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
