@@ -24,13 +24,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const umamiID = process.env.UMAMI_ID
   return (
     <html lang="en">
       {process.env.NODE_ENV === 'production' && (
         <Script
           src="https://eu.umami.is/script.js"
-          data-website-id={umamiID}
+          data-website-id={process.env.NEXT_PUBLIC_UMAMI_ID}
         ></Script>
       )}
 
@@ -38,7 +37,7 @@ export default function RootLayout({
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
         <TRPCReactProvider>
-          <h1>Umami ID: {umamiID}</h1>
+          <h1>Umami ID: {process.env.NEXT_PUBLIC_UMAMI_ID}</h1>
           <Nav />
           {children}
         </TRPCReactProvider>

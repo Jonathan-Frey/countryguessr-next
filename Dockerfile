@@ -23,6 +23,8 @@ COPY . .
 
 # Generate Prisma client
 RUN npm run postinstall
+ARG UMAMI_ID
+ENV NEXT_PUBLIC_UMAMI_ID=${UMAMI_ID}
 
 ENV SKIP_ENV_VALIDATION 1
 
