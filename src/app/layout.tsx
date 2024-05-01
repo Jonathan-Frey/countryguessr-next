@@ -32,10 +32,12 @@ export default function RootLayout({
           data-website-id={process.env.UMAMI_ID}
         ></Script>
       )}
+
       <body
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
         <TRPCReactProvider>
+          <h1>Umami ID: {process.env.UMAMI_ID}</h1>
           <Nav />
           {children}
         </TRPCReactProvider>
