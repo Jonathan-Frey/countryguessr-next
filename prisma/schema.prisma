@@ -45,6 +45,25 @@ model User {
   sessions      Session[]
 }
 
+model Game {
+  id             Int     @id @default(autoincrement())
+  date           String
+  image          Image   @relation(fields: [imageId], references: [id])
+  imageId        Int
+  hints          Hint[] // Relation to multiple hints
+  category       String // Category of the game
+  correctCountry Country @relation(fields: [countryId], references: [id])
+  countryId      Int // Foreign key for Country
+}
+
+model Hint {
+  id      Int    @id @default(autoincrement())
+  unlock  Int
+  content String
+  gameId  Int?
+  Game    Game?  @relation(fields: [gameId], references: [id])
+}
+
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -65,6 +84,7 @@ model Country {
   longitude    Float
   borders      CountryBorder[] @relation("CountryBorders")
   borderedBy   CountryBorder[] @relation("BorderedBy")
+  games        Game[]
 }
 
 model CountryBorder {
@@ -75,4 +95,11 @@ model CountryBorder {
   borderCountry Country @relation("BorderedBy", fields: [borderCountryId], references: [id])
 
   @@id([countryId, borderCountryId])
+}
+
+model Image {
+  id          Int    @id @default(autoincrement())
+  contentType String
+  data        Bytes
+  games       Game[]
 }

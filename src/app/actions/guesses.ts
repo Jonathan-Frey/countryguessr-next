@@ -3,13 +3,50 @@
 import { distanceFormatter } from '@/lib/formatters'
 import { getDistance, getRhumbLineBearing } from 'geolib'
 import { db } from '@/server/db'
+import { format } from 'date-fns'
 
-export async function checkAnswer(countryName: string) {
-  const correctCountry = {
-    name: 'Sweden',
-    latitude: 62,
-    longitude: 15,
+export async function getGame(category: string, targetDate?: string) {
+  if (!targetDate) {
+    targetDate = format(new Date(Date.now()), 'yyyy-MM-dd')
   }
+  console.log('date', targetDate)
+  const game = await db.game.findFirst({
+    where: {
+      date: {
+        equals: targetDate,
+      },
+      category: {
+        equals: category,
+      },
+    },
+    include: {
+      hints: true, // Include related hints
+    },
+  })
+  return game
+}
+
+export async function checkAnswer(
+  countryName: string,
+  category: string,
+  date: string,
+) {
+  const game = await db.game.findFirst({
+    where: {
+      date: {
+        equals: date,
+      },
+      category: {
+        equals: category,
+      },
+    },
+    select: {
+      correctCountry: true, // Include related hints
+    },
+  })
+
+  const correctCountry = game?.correctCountry
+
   const guessedCountry = await db.country.findFirst({
     where: {
       name: {
@@ -18,7 +55,7 @@ export async function checkAnswer(countryName: string) {
     },
   })
 
-  if (guessedCountry) {
+  if (guessedCountry && correctCountry) {
     const distance = distanceFormatter(
       getDistance(
         {

@@ -25,6 +25,7 @@
     "@trpc/next": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
+    "date-fns": "^3.6.0",
     "geolib": "^3.3.4",
     "next": "^14.2.2",
     "next-auth": "^4.24.6",

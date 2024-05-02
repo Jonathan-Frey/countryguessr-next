@@ -8,6 +8,8 @@ import { type Guess } from '@/app/_components/GuessGame'
 export default function CountryInput(props: {
   guesses: Guess[]
   setGuesses: (guesses: Guess[]) => void
+  date: string
+  category: string
 }) {
   const [inputValue, setInputValue] = useState('')
   const [countryNames, setCountryNames] = useState<string[]>([])
@@ -46,7 +48,7 @@ export default function CountryInput(props: {
 
   async function submitAnswer(countryName: string) {
     setInputValue('')
-    const response = await checkAnswer(countryName)
+    const response = await checkAnswer(countryName, props.category, props.date)
     response && props.setGuesses([...props.guesses, response])
   }
 
