@@ -6,7 +6,7 @@ import Image from 'next/image'
 import GuessList from '@/app/_components/GuessList'
 import HintList from '@/app/_components/HintList'
 import { type GameData } from '@/app/dishes/page'
-export interface Guess {
+export type Guess = {
   country: string
   distance: string
   bearing: number

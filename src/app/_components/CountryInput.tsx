@@ -2,7 +2,7 @@
 
 import { api } from '@/trpc/react'
 import { useEffect, useState } from 'react'
-import { checkAnswer } from '@/app/actions/guesses'
+import { checkAnswer } from '@/app/_actions/guesses'
 import { type Guess } from '@/app/_components/GuessGame'
 
 export default function CountryInput(props: {

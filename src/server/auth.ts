@@ -5,6 +5,8 @@ import {
   type NextAuthOptions,
 } from 'next-auth'
 import { type Adapter } from 'next-auth/adapters'
+import GitHubProvider from 'next-auth/providers/github'
+
 import { db } from '@/server/db'
 
 /**
@@ -17,15 +19,16 @@ declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string
+      role: 'user' | 'admin'
       // ...other properties
       // role: UserRole;
     } & DefaultSession['user']
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    role: 'user' | 'admin'
+  }
 }
 
 /**
@@ -35,16 +38,28 @@ declare module 'next-auth' {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    signIn({ user, account, profile }) {
+      if (account?.provider === 'github') {
+        const isAdmin = profile?.email === 'jf223rf@student.lnu.se'
+        user.role = isAdmin ? 'admin' : 'user'
+      }
+      return true
+    },
     session: ({ session, user }) => ({
       ...session,
       user: {
         ...session.user,
         id: user.id,
+        role: user.role,
       },
     }),
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID ?? '',
+      clientSecret: process.env.GITHUB_SECRET ?? '',
+    }),
     /**
      * ...add more providers here.
      *

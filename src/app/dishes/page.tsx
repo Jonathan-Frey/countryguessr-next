@@ -1,5 +1,5 @@
 import GuessGame from '@/app/_components/GuessGame'
-import { getGame } from '../actions/guesses'
+import { getGame } from '@/app/_actions/guesses'
 
 export type GameData = {
   hints: {
@@ -11,7 +11,7 @@ export type GameData = {
 } & {
   id: number
   date: string
-  imageId: number
+  image: string
   category: string
   countryId: number
 }
@@ -23,12 +23,13 @@ export type Hint = {
   gameId: number | null
 }
 
-const gameData = await getGame('dish')
-
-export default function Page() {
+export default async function Page() {
+  const gameData = await getGame('dish')
   return gameData ? (
-    <GuessGame gameData={gameData} />
+    <>
+      <GuessGame gameData={gameData} />
+    </>
   ) : (
-    <h1>No Game DAta Found</h1>
+    <h1>No Game Data Found</h1>
   )
 }

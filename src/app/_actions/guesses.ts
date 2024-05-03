@@ -9,7 +9,6 @@ export async function getGame(category: string, targetDate?: string) {
   if (!targetDate) {
     targetDate = format(new Date(Date.now()), 'yyyy-MM-dd')
   }
-  console.log('date', targetDate)
   const game = await db.game.findFirst({
     where: {
       date: {
