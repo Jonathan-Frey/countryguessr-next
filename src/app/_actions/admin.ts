@@ -1,31 +1,16 @@
 'use server'
 
 import { db } from '@/server/db'
-import { z } from 'zod'
-
-const ImageFile = z.object({
-  size: z.number().min(1), // size should not be zero
-  type: z.enum(['image/png', 'image/jpeg']), // type should be an image, either png or jpeg
-})
-
-const Game = z.object({
-  date: z.string(),
-  imageFile: ImageFile,
-  hints: z.array(
-    z.object({
-      content: z.string(),
-      unlock: z.number(),
-    }),
-  ),
-  category: z.string(),
-  countryName: z.string(),
-})
+import { gameSchema, type GameData } from '@/lib/types'
+import { getErrorMessage, isErrorWithCode } from '@/lib/typeValidators'
+import { revalidatePath } from 'next/cache'
 
 export async function createImage(file: File) {
+  let savedImage
   try {
     if (file && file.size > 0) {
       const imageData = Buffer.from(await file.arrayBuffer())
-      const savedImage = await db.image.create({
+      savedImage = await db.image.create({
         data: {
           data: imageData,
           contentType: file.type,
@@ -34,58 +19,121 @@ export async function createImage(file: File) {
       return savedImage.id
     }
   } catch (error) {
-    return
+    console.log(error)
   }
 }
 
 export async function createGame(formData: FormData) {
   try {
-    const gameData = {
-      date: formData.get('date') as string,
-      imageFile: formData.get('image') as File,
-      hints: [
-        {
-          content: formData.get('hints[0].content') as string,
-          unlock: formData.get('hints[0].unlock')
-            ? parseInt(formData.get('hints[0].unlock') as string)
-            : 0,
-        },
-        {
-          content: formData.get('hints[1].content') as string,
-          unlock: formData.get('hints[1].unlock')
-            ? parseInt(formData.get('hints[1].unlock') as string)
-            : 0,
-        },
-        {
-          content: formData.get('hints[2].content') as string,
-          unlock: formData.get('hints[2].unlock')
-            ? parseInt(formData.get('hints[2].unlock') as string)
-            : 0,
-        },
-      ],
-      category: formData.get('category') as string,
-      countryName: formData.get('correctCountry') as string,
+    const gameData: Partial<GameData> = Object.fromEntries(formData)
+    gameData.hints = []
+
+    for (let i = 0; ; i++) {
+      const contentKey = `hints[${i}].content`
+      const unlockKey = `hints[${i}].unlock`
+
+      if (
+        !gameData.hasOwnProperty(contentKey) ||
+        !gameData.hasOwnProperty(unlockKey)
+      ) {
+        break
+      }
+
+      const hint = {
+        content: gameData[contentKey] as string,
+        unlock: Number(gameData[unlockKey]),
+      }
+
+      gameData.hints.push(hint)
     }
-    Game.parse(gameData)
-    const imageId = await createImage(gameData.imageFile)
+
+    const result = gameSchema.parse(gameData)
+    const imageId = await createImage(result.imageFile)
     if (imageId) {
-      await db.game.create({
-        data: {
-          date: gameData.date,
-          image: `/public/images/${imageId}`,
-          hints: {
-            createMany: {
-              data: gameData.hints,
+      try {
+        await db.game.create({
+          data: {
+            date: result.date,
+            image: `/public/images/${imageId}`,
+            hints: {
+              createMany: {
+                data: result.hints,
+              },
+            },
+            category: result.category,
+            correctCountry: {
+              connect: { name: result.countryName },
             },
           },
-          category: gameData.category,
-          correctCountry: {
-            connect: { name: gameData.countryName },
+        })
+      } catch (error) {
+        await db.image.delete({
+          where: {
+            id: imageId,
           },
-        },
-      })
+        })
+
+        let err
+
+        isErrorWithCode(error) && error.code === 'P2002'
+          ? (err = 'Game already exists for this data and category')
+          : (err = error)
+
+        throw err
+      }
+    } else {
+      throw new Error('Image id not found')
+    }
+    revalidatePath('/admin')
+    return {
+      success: true,
+      message: 'Game was created successfully',
     }
   } catch (error) {
     console.log(error)
+    revalidatePath('/admin')
+    return {
+      success: false,
+      error: getErrorMessage(error),
+    }
+  }
+}
+
+export async function deleteGame(gameId: number) {
+  try {
+    const data = await db.game.findFirst({
+      where: {
+        id: gameId,
+      },
+      select: {
+        image: true,
+      },
+    })
+    if (data?.image) {
+      const fragmentArray = data.image.split('/')
+      const imageId = Number(fragmentArray[fragmentArray.length - 1])
+      await db.image.delete({
+        where: {
+          id: imageId,
+        },
+      })
+    }
+    await db.game.delete({
+      where: {
+        id: gameId,
+      },
+    })
+    revalidatePath('/admin')
+    return {
+      success: true,
+      message: 'Game deleted successfully',
+    }
+  } catch (error) {
+    console.log(error)
+    revalidatePath('/admin')
+    return {
+      success: false,
+      error: getErrorMessage(error),
+    }
   }
 }

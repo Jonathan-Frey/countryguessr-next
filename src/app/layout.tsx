@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google'
 import { TRPCReactProvider } from '@/trpc/react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Toaster } from 'react-hot-toast'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -38,6 +39,7 @@ export default function RootLayout({
       >
         <TRPCReactProvider>
           <Nav />
+          <Toaster position="top-right" />
           {children}
         </TRPCReactProvider>
       </body>
