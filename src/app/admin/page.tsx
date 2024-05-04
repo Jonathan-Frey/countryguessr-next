@@ -24,11 +24,12 @@ export default async function Page() {
     },
   })
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center gap-4">
       <div className="w-1/2">
         <CreateGameForm countries={countries}></CreateGameForm>
       </div>
       <div className="flex w-1/2 flex-col gap-2">
+        <h2 className="text-xl font-bold">Created Games</h2>
         {games.map((game) => (
           <div
             key={game.id}

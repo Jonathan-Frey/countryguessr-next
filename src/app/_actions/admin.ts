@@ -64,6 +64,7 @@ export async function createGame(formData: FormData) {
             correctCountry: {
               connect: { name: result.countryName },
             },
+            product: result.product,
           },
         })
       } catch (error) {

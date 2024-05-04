@@ -107,7 +107,7 @@ export default function CreateGameForm(props: {
               type="number"
               name={`hints[${i}].unlock`}
               id={`hints[${i}].unlock`}
-              className=" w-min"
+              className="w-min"
               defaultValue={0}
             />
           </div>
@@ -117,6 +117,11 @@ export default function CreateGameForm(props: {
           <option value="dish">Dish</option>
           <option value="dance">Dance</option>
         </select>
+
+        <label htmlFor="product" className="mx-2">
+          Product
+        </label>
+        <input type="text" id="product" name="product" className="mx-2 mb-2" />
 
         <select name="countryName" className="m-2">
           {props.countries.map((country) => (
@@ -128,7 +133,7 @@ export default function CreateGameForm(props: {
 
         <button
           type="submit"
-          className="rounded-md bg-red-400 p-2 hover:bg-red-500 disabled:bg-red-200"
+          className="w-min rounded-md bg-red-400 p-2 hover:bg-red-500 disabled:bg-red-200"
           disabled={loading}
         >
           Submit

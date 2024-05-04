@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const hintSchema = z.object({
-  content: z.string().min(1),
+  content: z.string().min(1, 'Hint content must be at least 1 character long'),
   unlock: z.number().int().nonnegative(),
 })
 
@@ -28,6 +28,7 @@ export const gameSchema = z.object({
   hints: z.array(hintSchema),
   category: z.string(),
   countryName: z.string(),
+  product: z.string().min(1, 'Product must be at least 1 character long'),
 })
 
 export type GameData = {
@@ -36,6 +37,7 @@ export type GameData = {
   hints: Array<{ content: string; unlock: number }>
   category: string
   countryName: string
+  product: string
   [key: string]:
     | string
     | number
