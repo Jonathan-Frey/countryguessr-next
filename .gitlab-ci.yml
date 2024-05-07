@@ -12,6 +12,7 @@ build:
   services:
     - mysql:latest
   variables:
+    MYSQL_ALLOW_EMPTY_PASSWORD: true
     SKIP_ENV_VALIDATION: 1
   script:
     - export DATABASE_URL=mysql://root@mysql:3306/countryguessr
@@ -30,6 +31,7 @@ test:
   services:
     - mysql:latest
   variables:
+    MYSQL_ALLOW_EMPTY_PASSWORD: true
     SKIP_ENV_VALIDATION: 1
   script:
     - export DATABASE_URL=mysql://root@mysql:3306/countryguessr
