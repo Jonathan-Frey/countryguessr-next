@@ -1,12 +1,6 @@
 import CategoryList from './_components/CategoryList'
 
-const categories = [
-  { displayName: 'Dishes', pathName: 'dishes' },
-  { displayName: 'Dances', pathName: 'dances' },
-  { displayName: 'Clothing', pathName: 'clothing' },
-  { displayName: 'Landmarks', pathName: 'landmarks' },
-  { displayName: 'Festivals', pathName: 'festivals' },
-]
+const categories = [{ displayName: 'Dishes', pathName: 'dishes' }]
 
 export default function Page() {
   return (

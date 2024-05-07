@@ -1,10 +1,12 @@
 'use client'
 
 import CountryInput from '@/app/_components/CountryInput'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import GuessList from '@/app/_components/GuessList'
 import HintList from '@/app/_components/HintList'
-export interface Guess {
+import { type GameData } from '@/app/dishes/page'
+export type Guess = {
   country: string
   distance: string
   bearing: number
@@ -68,7 +70,7 @@ function useGuesses(): [Guess[], (guesses: Guess[]) => void] {
   return [guesses, setGuesses]
 }
 
-export default function GuessGame(props: { children?: ReactNode }) {
+export default function GuessGame(props: { gameData: GameData }) {
   const [guesses, setGuesses] = useGuesses()
   const [gameState, setGameState] = useState({ gameOver: false, won: false })
 
@@ -98,12 +100,23 @@ export default function GuessGame(props: { children?: ReactNode }) {
         <>
           <div className="flex w-full flex-col lg:w-1/2">
             <div className="flex justify-end">
-              <HintList guesses={guesses} />
+              <HintList guesses={guesses} hints={props.gameData.hints} />
             </div>
-            {props.children}
+            <Image
+              src="/bolognese.jpg"
+              alt="A food dish"
+              height={512}
+              width={512}
+              className="w-full rounded-xl"
+            ></Image>
           </div>
           <div className="mt-2 w-full lg:mt-8 lg:w-1/2">
-            <CountryInput guesses={guesses} setGuesses={setGuesses} />
+            <CountryInput
+              guesses={guesses}
+              setGuesses={setGuesses}
+              date={props.gameData.date}
+              category={props.gameData.category}
+            />
             <GuessList guesses={guesses} />
           </div>
         </>

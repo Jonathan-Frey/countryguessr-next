@@ -9,10 +9,15 @@ stages:
 
 build:
   stage: build
+  services:
+    - mysql:latest
   variables:
+    MYSQL_ALLOW_EMPTY_PASSWORD: true
     SKIP_ENV_VALIDATION: 1
   script:
+    - export DATABASE_URL=mysql://root@mysql:3306/countryguessr
     - npm install
+    - npm run db:push
     - npm run build
   artifacts:
     paths:
@@ -24,8 +29,8 @@ build:
 
 test:
   stage: test
-  services:
-    - mysql:latest
+  variables:
+    SKIP_ENV_VALIDATION: 1
   script:
     - npm run test
   dependencies:
