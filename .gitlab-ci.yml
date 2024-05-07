@@ -9,8 +9,11 @@ stages:
 
 build:
   stage: build
+  services:
+    - mysql:latest
   variables:
     SKIP_ENV_VALIDATION: 1
+    DATABASE_URL: mysql://root@mysql:3306/countryguessr
   script:
     - npm install
     - npm run build
@@ -26,6 +29,9 @@ test:
   stage: test
   services:
     - mysql:latest
+  variables:
+    SKIP_ENV_VALIDATION: 1
+    DATABASE_URL: mysql://root@mysql:3306/countryguessr
   script:
     - npm run test
   dependencies:
