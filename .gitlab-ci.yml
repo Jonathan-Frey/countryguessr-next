@@ -17,7 +17,7 @@ build:
   script:
     - export DATABASE_URL=mysql://root@mysql:3306/countryguessr
     - npm install
-    - npm db:push
+    - npm run db:push
     - npm run build
   artifacts:
     paths:
