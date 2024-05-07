@@ -29,14 +29,9 @@ build:
 
 test:
   stage: test
-  services:
-    - mysql:latest
   variables:
-    MYSQL_ALLOW_EMPTY_PASSWORD: true
-    MYSQL_DATABASE: 'countryguessr'
     SKIP_ENV_VALIDATION: 1
   script:
-    - export DATABASE_URL=mysql://root@mysql:3306/countryguessr
     - npm run test
   dependencies:
     - build
