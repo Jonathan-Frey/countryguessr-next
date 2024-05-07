@@ -16,7 +16,7 @@ build:
     MYSQL_DATABASE: 'countryguessr'
     SKIP_ENV_VALIDATION: 1
   script:
-    - export DATABASE_URL=mysql://root@mysql:3306/defaultdb
+    - export DATABASE_URL=mysql://root@mysql:3306/countryguessr
     - npm install
     - npm run build
   artifacts:
