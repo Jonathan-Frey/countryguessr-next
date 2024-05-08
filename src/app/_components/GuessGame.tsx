@@ -14,8 +14,25 @@ export type Guess = {
   flag: string
 }
 
-function setLocalGuesses(guesses: Guess[]) {
-  localStorage.setItem('guesses', JSON.stringify(guesses))
+type LocalGameData = {
+  date: string
+  category: string
+  guesses: Guess[]
+}
+
+function setLocalGuesses(guesses: Guess[], date: string, category: string) {
+  let allLocalGameData = getAllLocalGameData()
+  let foundMatch = false
+  !allLocalGameData && (allLocalGameData = [])
+  const updatedGameData = allLocalGameData.map((data) => {
+    if (data.date === date && data.category === category) {
+      data.guesses = guesses
+      foundMatch = true
+    }
+    return data
+  })
+  !foundMatch && updatedGameData.push({ date, category, guesses })
+  localStorage.setItem('countryguessr-guesses', JSON.stringify(updatedGameData))
 }
 
 function isValidGuess(obj: unknown): obj is Guess {
@@ -35,43 +52,82 @@ function isValidGuess(obj: unknown): obj is Guess {
   )
 }
 
-function getLocalGuesses(): Guess[] | null {
+function isValidLocalGameData(obj: unknown): obj is LocalGameData {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'date' in obj &&
+    typeof obj.date === 'string' &&
+    'category' in obj &&
+    typeof obj.category === 'string' &&
+    'guesses' in obj &&
+    Array.isArray(obj.guesses) &&
+    obj.guesses.every(isValidGuess)
+  )
+}
+
+function getAllLocalGameData() {
   if (typeof window === 'undefined') {
     // We're in a Node.js environment, so return null
     return null
   }
 
-  const localGuessesAsJSON = localStorage.getItem('guesses')
-  if (localGuessesAsJSON && localGuessesAsJSON.length > 0) {
+  const localGuessDataAsJSON = localStorage.getItem('countryguessr-guesses')
+  if (localGuessDataAsJSON && localGuessDataAsJSON.length > 0) {
     try {
-      const potentialGuesses = JSON.parse(localGuessesAsJSON) as unknown
+      const allLocalGameData = JSON.parse(localGuessDataAsJSON) as unknown
       if (
-        Array.isArray(potentialGuesses) &&
-        potentialGuesses.every(isValidGuess)
+        Array.isArray(allLocalGameData) &&
+        allLocalGameData.every(isValidLocalGameData)
       ) {
-        return potentialGuesses
+        return allLocalGameData
       }
     } catch (error) {
-      console.error("Failed to parse 'guesses' from localStorage:", error)
+      console.error(
+        "Failed to parse 'countryguessr-guesses' from localStorage:",
+        error,
+      )
+      return null
     }
   }
   return null
 }
 
-function useGuesses(): [Guess[], (guesses: Guess[]) => void] {
-  const localGuesses = getLocalGuesses()
+function getLocalGameData(
+  date: string,
+  category: string,
+): LocalGameData | null {
+  const allLocalGameData = getAllLocalGameData()
+  const localGameData = allLocalGameData
+    ? allLocalGameData.find(
+        (LocalGameData) =>
+          LocalGameData.category === category && LocalGameData.date === date,
+      )
+    : null
+  return localGameData ? localGameData : null
+}
+
+function useGuesses(
+  date: string,
+  category: string,
+): [Guess[], (guesses: Guess[]) => void] {
+  const localGameData = getLocalGameData(date, category)
+  const localGuesses = localGameData?.guesses
   const [guesses, setLiveGuesses] = useState<Guess[]>(
     localGuesses ? localGuesses : [],
   )
   function setGuesses(guesses: Guess[]) {
     setLiveGuesses(guesses)
-    setLocalGuesses(guesses)
+    setLocalGuesses(guesses, date, category)
   }
   return [guesses, setGuesses]
 }
 
 export default function GuessGame(props: { gameData: GameData }) {
-  const [guesses, setGuesses] = useGuesses()
+  const [guesses, setGuesses] = useGuesses(
+    props.gameData.date,
+    props.gameData.category,
+  )
   const [gameState, setGameState] = useState({ gameOver: false, won: false })
 
   useEffect(() => {
