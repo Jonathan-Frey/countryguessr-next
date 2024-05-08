@@ -123,7 +123,10 @@ function useGuesses(
   return [guesses, setGuesses]
 }
 
-export default function GuessGame(props: { gameData: GameData }) {
+export default function GuessGame(props: {
+  gameData: GameData
+  countryNames: string[]
+}) {
   const [guesses, setGuesses] = useGuesses(
     props.gameData.date,
     props.gameData.category,
@@ -172,6 +175,7 @@ export default function GuessGame(props: { gameData: GameData }) {
               setGuesses={setGuesses}
               date={props.gameData.date}
               category={props.gameData.category}
+              countryNames={props.countryNames}
             />
             <GuessList guesses={guesses} />
           </div>
