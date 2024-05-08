@@ -64,7 +64,7 @@ model Game {
 model Hint {
   id      Int    @id @default(autoincrement())
   unlock  Int
-  content String
+  content String @db.Text
   gameId  Int?
   Game    Game?  @relation(fields: [gameId], references: [id])
 }

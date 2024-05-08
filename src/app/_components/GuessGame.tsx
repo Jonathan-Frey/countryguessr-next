@@ -162,7 +162,7 @@ export default function GuessGame(props: {
               <HintList guesses={guesses} hints={props.gameData.hints} />
             </div>
             <Image
-              src="/bolognese.jpg"
+              src={props.gameData.image}
               alt="A food dish"
               height={512}
               width={512}
