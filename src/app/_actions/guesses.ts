@@ -3,27 +3,6 @@
 import { distanceFormatter } from '@/lib/formatters'
 import { getDistance, getRhumbLineBearing } from 'geolib'
 import { db } from '@/server/db'
-import { format } from 'date-fns'
-
-export async function getGame(category: string, targetDate?: string) {
-  if (!targetDate) {
-    targetDate = format(new Date(Date.now()), 'yyyy-MM-dd')
-  }
-  const game = await db.game.findFirst({
-    where: {
-      date: {
-        equals: targetDate,
-      },
-      category: {
-        equals: category,
-      },
-    },
-    include: {
-      hints: true, // Include related hints
-    },
-  })
-  return game
-}
 
 export async function checkAnswer(
   countryName: string,

@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import Script from 'next/script'
 import { Poppins } from 'next/font/google'
-import { TRPCReactProvider } from '@/trpc/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
@@ -37,11 +36,9 @@ export default function RootLayout({
       <body
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
-        <TRPCReactProvider>
-          <Nav />
-          <Toaster position="top-right" />
-          {children}
-        </TRPCReactProvider>
+        <Nav />
+        <Toaster position="top-right" />
+        {children}
       </body>
     </html>
   )

@@ -1,6 +1,7 @@
 import GuessGame from '@/app/_components/GuessGame'
+import NotFound from '@/app/not-found'
 import { db } from '@/server/db'
-import { format } from 'date-fns'
+import { format, compareAsc } from 'date-fns'
 
 export type GameData = {
   hints: {
@@ -24,13 +25,23 @@ export type Hint = {
   gameId: number | null
 }
 
-export const dynamic = 'force-dynamic'
-
-export default async function Page() {
+export default async function Page(props: { params: { date: string } }) {
+  const now = format(new Date(Date.now()), 'yyyy-MM-dd')
+  let hasPassed = false
+  switch (compareAsc(now, props.params.date)) {
+    case 1:
+      hasPassed = true
+      break
+    default:
+      break
+  }
+  if (!hasPassed) {
+    return <NotFound />
+  }
   const gameData = await db.game.findFirst({
     where: {
       date: {
-        equals: format(new Date(Date.now()), 'yyyy-MM-dd'),
+        equals: format(props.params.date, 'yyyy-MM-dd'),
       },
       category: {
         equals: 'Dish',
