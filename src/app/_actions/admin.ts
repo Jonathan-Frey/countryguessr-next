@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from '@/server/db'
-import { gameSchema, type GameData } from '@/lib/types'
+import { gameSchema, type GameFormData } from '@/lib/types'
 import { getErrorMessage, isErrorWithCode } from '@/lib/typeValidators'
 import { revalidatePath } from 'next/cache'
 
@@ -25,7 +25,7 @@ export async function createImage(file: File) {
 
 export async function createGame(formData: FormData) {
   try {
-    const gameData: Partial<GameData> = Object.fromEntries(formData)
+    const gameData: Partial<GameFormData> = Object.fromEntries(formData)
     gameData.hints = []
 
     for (let i = 0; ; i++) {

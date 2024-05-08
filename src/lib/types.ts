@@ -31,7 +31,7 @@ export const gameSchema = z.object({
   product: z.string().min(1, 'Product must be at least 1 character long'),
 })
 
-export type GameData = {
+export type GameFormData = {
   date: string
   imageFile: File
   hints: Array<{ content: string; unlock: number }>
@@ -43,4 +43,40 @@ export type GameData = {
     | number
     | File
     | Array<{ content: string; unlock: number }>
+}
+
+export type GameData = {
+  hints: {
+    id: number
+    unlock: number
+    content: string
+    gameId: number | null
+  }[]
+} & {
+  id: number
+  date: string
+  image: string
+  category: string
+  countryId: number
+}
+
+export type Hint = {
+  id: number
+  unlock: number
+  content: string
+  gameId: number | null
+}
+
+export type Guess = {
+  country: string
+  distance: string
+  bearing: number
+  correct: boolean
+  flag: string
+}
+
+export type LocalGameData = {
+  date: string
+  category: string
+  guesses: Guess[]
 }

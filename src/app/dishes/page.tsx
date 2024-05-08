@@ -1,28 +1,13 @@
 import GuessGame from '@/app/_components/GuessGame'
 import { db } from '@/server/db'
+import { type Country, type Hint, type Game } from '@prisma/client'
 import { format } from 'date-fns'
 
 export type GameData = {
-  hints: {
-    id: number
-    unlock: number
-    content: string
-    gameId: number | null
-  }[]
+  hints: Hint[]
 } & {
-  id: number
-  date: string
-  image: string
-  category: string
-  countryId: number
-}
-
-export type Hint = {
-  id: number
-  unlock: number
-  content: string
-  gameId: number | null
-}
+  correctCountry: Country
+} & Game
 
 export const dynamic = 'force-dynamic'
 
@@ -38,6 +23,7 @@ export default async function Page() {
     },
     include: {
       hints: true, // Include related hints
+      correctCountry: true,
     },
   })
   const countryDataWithNames = await db.country.findMany({

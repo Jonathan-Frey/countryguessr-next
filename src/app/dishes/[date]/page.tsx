@@ -3,28 +3,6 @@ import NotFound from '@/app/not-found'
 import { db } from '@/server/db'
 import { format, compareAsc } from 'date-fns'
 
-export type GameData = {
-  hints: {
-    id: number
-    unlock: number
-    content: string
-    gameId: number | null
-  }[]
-} & {
-  id: number
-  date: string
-  image: string
-  category: string
-  countryId: number
-}
-
-export type Hint = {
-  id: number
-  unlock: number
-  content: string
-  gameId: number | null
-}
-
 export default async function Page(props: { params: { date: string } }) {
   const now = format(new Date(Date.now()), 'yyyy-MM-dd')
   let hasPassed = false
