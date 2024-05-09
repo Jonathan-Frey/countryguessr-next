@@ -1,6 +1,7 @@
 import GuessGame from '@/app/_components/GuessGame'
 import { db } from '@/server/db'
 import { format } from 'date-fns'
+import NoGameDataFound from '@/app/_components/NoGameDataFound'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,6 +33,6 @@ export default async function Page() {
       <GuessGame gameData={gameData} countryNames={countryNames} />
     </>
   ) : (
-    <h1>No Game Data Found</h1>
+    <NoGameDataFound />
   )
 }

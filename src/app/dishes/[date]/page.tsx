@@ -1,4 +1,5 @@
 import GuessGame from '@/app/_components/GuessGame'
+import NoGameDataFound from '@/app/_components/NoGameDataFound'
 import NotFound from '@/app/not-found'
 import { db } from '@/server/db'
 import { format, compareAsc } from 'date-fns'
@@ -43,6 +44,6 @@ export default async function Page(props: { params: { date: string } }) {
       <GuessGame gameData={gameData} countryNames={countryNames} />
     </>
   ) : (
-    <h1>No Game Data Found</h1>
+    <NoGameDataFound />
   )
 }
