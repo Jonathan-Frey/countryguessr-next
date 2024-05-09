@@ -70,7 +70,7 @@ stage:
       docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin <<<$CI_REGISTRY_PASSWORD &&
       docker stop countryguessr-container || true &&
       docker images ${CI_REGISTRY_IMAGE}/countryguessr-staging -q | xargs -r docker rmi -f &&
-      docker run --env DATABASE_URL="$DATABASE_URL" --env NODE_ENV="production" --env NEXTAUTH_SECRET="$NEXTAUTH_SECRET" --env NEXTAUTH_URL="$NEXTAUTH_URL" --env GITHUB_SECRET="$STAGING_GITHUB_SECRET" --env GITHUB_ID="$STAGING_GITHUB_ID" --name countryguessr-container --rm -d -p 3000:3000 ${CI_REGISTRY_IMAGE}/countryguessr-staging:${CI_COMMIT_TAG:-latest} && docker exec countryguessr-container npx prisma migrate deploy"
+      docker run --env DATABASE_URL="$DATABASE_URL" --env NODE_ENV="production" --env NEXTAUTH_SECRET="$NEXTAUTH_SECRET" --env NEXTAUTH_URL="$STAGING_NEXTAUTH_URL" --env GITHUB_SECRET="$STAGING_GITHUB_SECRET" --env GITHUB_ID="$STAGING_GITHUB_ID" --name countryguessr-container --rm -d -p 3000:3000 ${CI_REGISTRY_IMAGE}/countryguessr-staging:${CI_COMMIT_TAG:-latest} && docker exec countryguessr-container npx prisma migrate deploy"
   only:
     - staging
   dependencies:
