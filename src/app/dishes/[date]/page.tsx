@@ -1,29 +1,8 @@
 import GuessGame from '@/app/_components/GuessGame'
+import NoGameDataFound from '@/app/_components/NoGameDataFound'
 import NotFound from '@/app/not-found'
 import { db } from '@/server/db'
 import { format, compareAsc } from 'date-fns'
-
-export type GameData = {
-  hints: {
-    id: number
-    unlock: number
-    content: string
-    gameId: number | null
-  }[]
-} & {
-  id: number
-  date: string
-  image: string
-  category: string
-  countryId: number
-}
-
-export type Hint = {
-  id: number
-  unlock: number
-  content: string
-  gameId: number | null
-}
 
 export default async function Page(props: { params: { date: string } }) {
   const now = format(new Date(Date.now()), 'yyyy-MM-dd')
@@ -49,6 +28,7 @@ export default async function Page(props: { params: { date: string } }) {
     },
     include: {
       hints: true, // Include related hints
+      correctCountry: true,
     },
   })
   const countryDataWithNames = await db.country.findMany({
@@ -64,6 +44,6 @@ export default async function Page(props: { params: { date: string } }) {
       <GuessGame gameData={gameData} countryNames={countryNames} />
     </>
   ) : (
-    <h1>No Game Data Found</h1>
+    <NoGameDataFound />
   )
 }

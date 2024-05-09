@@ -1,3 +1,4 @@
+import { type Game, type Country } from '@prisma/client'
 import { z } from 'zod'
 
 const hintSchema = z.object({
@@ -29,18 +30,49 @@ export const gameSchema = z.object({
   category: z.string(),
   countryName: z.string(),
   product: z.string().min(1, 'Product must be at least 1 character long'),
+  information: z
+    .string()
+    .min(1, 'Product information must be at least 1 character long '),
 })
 
-export type GameData = {
+export type GameFormData = {
   date: string
   imageFile: File
   hints: Array<{ content: string; unlock: number }>
   category: string
   countryName: string
   product: string
+  information: string
   [key: string]:
     | string
     | number
     | File
     | Array<{ content: string; unlock: number }>
+}
+
+export type GameData = {
+  hints: Hint[]
+} & {
+  correctCountry: Country
+} & Game
+
+export type Hint = {
+  id: number
+  unlock: number
+  content: string
+  gameId: number | null
+}
+
+export type Guess = {
+  country: string
+  distance: string
+  bearing: number
+  correct: boolean
+  flag: string
+}
+
+export type LocalGameData = {
+  date: string
+  category: string
+  guesses: Guess[]
 }

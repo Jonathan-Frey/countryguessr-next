@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { type Guess } from '@/app/_components/GuessGame'
+import { type Guess } from '@/lib/types'
 
 export default function HintItem(props: {
   data: { id: number; unlock: number; content: string }

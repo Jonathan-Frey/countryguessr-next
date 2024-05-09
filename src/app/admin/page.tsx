@@ -23,6 +23,7 @@ export default async function Page() {
       correctCountry: true,
     },
   })
+  console.log(countries[0])
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="w-1/2">
@@ -49,8 +50,10 @@ export default async function Page() {
               </div>
             </div>
             <div className="flex flex-col gap-2">
+              <h3 className="font-semibold">Information</h3>
+              <p>{game.ProductInformation}</p>
               {game.hints.map((hint, index) => (
-                <div key={hint.id} className="flex flex-col">
+                <div key={hint.id} className="flex flex-col font-semibold">
                   <h3>Hint {index + 1}</h3>
                   <span>unlocks in {hint.unlock} guesses</span>
                   <h4>content:</h4>

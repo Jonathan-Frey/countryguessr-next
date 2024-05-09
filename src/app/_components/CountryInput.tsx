@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { checkAnswer } from '@/app/_actions/guesses'
-import { type Guess } from '@/app/_components/GuessGame'
+import { type Guess } from '@/lib/types'
 
 export default function CountryInput(props: {
   guesses: Guess[]

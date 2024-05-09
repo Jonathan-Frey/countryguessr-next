@@ -1,28 +1,7 @@
 import GuessGame from '@/app/_components/GuessGame'
 import { db } from '@/server/db'
 import { format } from 'date-fns'
-
-export type GameData = {
-  hints: {
-    id: number
-    unlock: number
-    content: string
-    gameId: number | null
-  }[]
-} & {
-  id: number
-  date: string
-  image: string
-  category: string
-  countryId: number
-}
-
-export type Hint = {
-  id: number
-  unlock: number
-  content: string
-  gameId: number | null
-}
+import NoGameDataFound from '@/app/_components/NoGameDataFound'
 
 export const dynamic = 'force-dynamic'
 
@@ -38,6 +17,7 @@ export default async function Page() {
     },
     include: {
       hints: true, // Include related hints
+      correctCountry: true,
     },
   })
   const countryDataWithNames = await db.country.findMany({
@@ -53,6 +33,6 @@ export default async function Page() {
       <GuessGame gameData={gameData} countryNames={countryNames} />
     </>
   ) : (
-    <h1>No Game Data Found</h1>
+    <NoGameDataFound />
   )
 }
