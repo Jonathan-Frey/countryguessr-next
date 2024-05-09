@@ -1,5 +1,5 @@
 import GuessListItem from '@/app/_components/GuessListItem'
-import { type Guess } from '@/app/_components/GuessGame'
+import { type Guess } from '@/lib/types'
 import { useEffect, useState } from 'react'
 
 export default function GuessList(props: { guesses: Guess[] }) {

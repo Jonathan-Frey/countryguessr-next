@@ -1,7 +1,7 @@
 'use client'
 
 import { createGame } from '@/app/_actions/admin'
-import { gameSchema, type GameData } from '@/lib/types'
+import { gameSchema, type GameFormData } from '@/lib/types'
 import { type Dispatch, type SetStateAction, useState } from 'react'
 import toast from 'react-hot-toast'
 
@@ -10,7 +10,7 @@ async function clientAction(
   setLoading: Dispatch<SetStateAction<boolean>>,
 ) {
   setLoading(true)
-  const gameData: Partial<GameData> = Object.fromEntries(formData)
+  const gameData: Partial<GameFormData> = Object.fromEntries(formData)
   gameData.hints = []
 
   for (let i = 0; ; i++) {

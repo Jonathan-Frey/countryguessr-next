@@ -1,6 +1,5 @@
 import HintItem from './HintItem'
-import { type Guess } from './GuessGame'
-import { type Hint } from '../dishes/page'
+import { type Guess, type Hint } from '@/lib/types'
 
 export default function HintList(props: { guesses: Guess[]; hints: Hint[] }) {
   return (

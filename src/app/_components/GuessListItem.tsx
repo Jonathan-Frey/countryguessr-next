@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { type Guess } from '@/app/_components/GuessGame'
+import { type Guess } from '@/lib/types'
 
 export default function GuessListItem(props: { guess: Guess }) {
   return (
