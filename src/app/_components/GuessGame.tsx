@@ -32,8 +32,40 @@ export default function GuessGame(props: {
   return (
     <main className="flex w-full max-w-screen-2xl grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4 lg:px-36">
       {gameState.gameOver ? (
-        <div>
-          <h2></h2>
+        <div className="flex flex-col">
+          <h2 className="mb-4 w-fit self-center font-semibold">
+            {gameState.won
+              ? `Congratulations, you guessed ${props.gameData.correctCountry.name} correctly in ${guesses.length} guesses!`
+              : `Sorry, better luck next time! The correct country was ${props.gameData.correctCountry.name}`}
+          </h2>
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <Image
+              src={props.gameData.image}
+              width={512}
+              height={512}
+              alt="a food dish"
+              className="self-start rounded-xl object-contain lg:w-1/2"
+            ></Image>
+            <div className="flex flex-col lg:w-1/2">
+              <h1 className="text-lg font-semibold">
+                {props.gameData.product}
+              </h1>
+              <p className="py-4 text-base">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Maiores, perspiciatis nisi magni dolor quo temporibus aperiam
+                provident eos cumque at. Voluptates sequi rem ad dolorem
+                distinctio molestiae aspernatur veritatis pariatur?
+              </p>
+              <h4 className="text-base font-semibold">Hints</h4>
+              <ul className="flex flex-col gap-4">
+                {props.gameData.hints.map((hint) => (
+                  <li key={hint.content}>
+                    <p className="text-base">{hint.content}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       ) : (
         <>

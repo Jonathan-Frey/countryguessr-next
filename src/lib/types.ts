@@ -1,3 +1,4 @@
+import { type Game, type Country } from '@prisma/client'
 import { z } from 'zod'
 
 const hintSchema = z.object({
@@ -46,19 +47,10 @@ export type GameFormData = {
 }
 
 export type GameData = {
-  hints: {
-    id: number
-    unlock: number
-    content: string
-    gameId: number | null
-  }[]
+  hints: Hint[]
 } & {
-  id: number
-  date: string
-  image: string
-  category: string
-  countryId: number
-}
+  correctCountry: Country
+} & Game
 
 export type Hint = {
   id: number

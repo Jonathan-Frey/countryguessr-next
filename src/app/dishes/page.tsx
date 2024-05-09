@@ -1,13 +1,6 @@
 import GuessGame from '@/app/_components/GuessGame'
 import { db } from '@/server/db'
-import { type Country, type Hint, type Game } from '@prisma/client'
 import { format } from 'date-fns'
-
-export type GameData = {
-  hints: Hint[]
-} & {
-  correctCountry: Country
-} & Game
 
 export const dynamic = 'force-dynamic'
 

@@ -27,6 +27,7 @@ export default async function Page(props: { params: { date: string } }) {
     },
     include: {
       hints: true, // Include related hints
+      correctCountry: true,
     },
   })
   const countryDataWithNames = await db.country.findMany({
