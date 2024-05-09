@@ -37,7 +37,12 @@ export default function DateSelector() {
       <h2 className="w-28 text-center">
         {formattedDate === today ? 'today' : formattedDate}
       </h2>
-      <button type="button" onClick={handleNextDay}>
+      <button
+        type="button"
+        onClick={handleNextDay}
+        disabled={formattedDate === today}
+        className={formattedDate === today ? 'text-gray-400' : undefined}
+      >
         &gt;
       </button>
     </div>

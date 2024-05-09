@@ -30,6 +30,9 @@ export const gameSchema = z.object({
   category: z.string(),
   countryName: z.string(),
   product: z.string().min(1, 'Product must be at least 1 character long'),
+  information: z
+    .string()
+    .min(1, 'Product information must be at least 1 character long '),
 })
 
 export type GameFormData = {
@@ -39,6 +42,7 @@ export type GameFormData = {
   category: string
   countryName: string
   product: string
+  information: string
   [key: string]:
     | string
     | number

@@ -71,6 +71,8 @@ export default function CreateGameForm(props: {
           accept="image/png, image/jpeg"
           className="m-2"
         />
+        <label htmlFor="information"></label>
+        <textarea name="information" id="information"></textarea>
         <div className="mx-2 flex gap-4">
           <h3>Hints</h3>
           <button

@@ -49,14 +49,15 @@ model User {
 }
 
 model Game {
-  id             Int     @id @default(autoincrement())
-  date           String
-  image          String
-  hints          Hint[] // Relation to multiple hints
-  category       String // Category of the game
-  correctCountry Country @relation(fields: [countryId], references: [id])
-  countryId      Int // Foreign key for Country
-  product        String
+  id                 Int     @id @default(autoincrement())
+  date               String
+  image              String
+  hints              Hint[] // Relation to multiple hints
+  category           String // Category of the game
+  correctCountry     Country @relation(fields: [countryId], references: [id])
+  countryId          Int // Foreign key for Country
+  product            String
+  ProductInformation String  @db.Text
 
   @@unique([date, category])
 }
