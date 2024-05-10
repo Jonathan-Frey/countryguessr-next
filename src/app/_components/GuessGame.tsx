@@ -51,10 +51,7 @@ export default function GuessGame(props: {
                 {props.gameData.product}
               </h1>
               <p className="py-4 text-base">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Maiores, perspiciatis nisi magni dolor quo temporibus aperiam
-                provident eos cumque at. Voluptates sequi rem ad dolorem
-                distinctio molestiae aspernatur veritatis pariatur?
+                {props.gameData.ProductInformation}
               </p>
               <h4 className="text-base font-semibold">Hints</h4>
               <ul className="flex flex-col gap-4">

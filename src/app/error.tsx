@@ -10,8 +10,8 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div>
-      <h2>Something went wrong</h2>
+    <div className="flex h-screen flex-col items-center justify-center">
+      <h2 className="text-lg text-gray-600">Something went wrong</h2>
       <Link href="/">Go Back</Link>
     </div>
   )
