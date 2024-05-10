@@ -23,7 +23,6 @@ export default async function Page() {
       correctCountry: true,
     },
   })
-  console.log(countries[0])
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="w-1/2">

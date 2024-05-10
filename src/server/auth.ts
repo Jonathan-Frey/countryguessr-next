@@ -38,11 +38,8 @@ declare module 'next-auth' {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    signIn({ user, account, profile }) {
-      if (account?.provider === 'github') {
-        const isAdmin = profile?.email === 'jonathan.k.frey@gmail.com'
-        user.role = isAdmin ? 'admin' : 'user'
-      }
+    signIn({ user }) {
+      user.role = 'user'
       return true
     },
     session: ({ session, user }) => ({
