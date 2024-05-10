@@ -4,8 +4,7 @@ const categories = [{ displayName: 'Dishes', pathName: 'dishes' }]
 
 export default function Page() {
   return (
-    <main className="flex h-full w-full max-w-screen-2xl flex-col items-center self-center">
-      <h1 className=" my-4 text-2xl">Guess Country By Category</h1>
+    <main className="flex h-full w-full max-w-screen-md self-center">
       <CategoryList categories={categories} />
     </main>
   )

@@ -7,17 +7,21 @@ export default function CategoryButton(props: {
 }) {
   return (
     <li
-      className=" w-full rounded-md border-b-2 border-tertiary text-5xl hover:scale-105 hover:bg-secondary hover:transition-all"
+      className="aspect-square w-full p-4 text-5xl sm:w-1/2"
       data-testid="category-button"
     >
-      <Link href={`./${props.pathName}`} className="flex gap-8 p-2">
+      <Link
+        href={`./${props.pathName}`}
+        className="relative flex h-full w-full items-center justify-center rounded-md border-2 border-tertiary hover:scale-105 hover:bg-secondary hover:transition-all"
+      >
+        <p>{props.displayName}</p>
         <Image
           alt="placeholder icon"
-          src="/placeholder.svg"
-          width={48}
-          height={48}
+          src="/dish-card-bg.jpg"
+          width={512}
+          height={512}
+          className="absolute inset-0 -z-10 h-full w-full rounded-md"
         />
-        <p>{props.displayName}</p>
       </Link>
     </li>
   )
