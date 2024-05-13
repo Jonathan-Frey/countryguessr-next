@@ -4,6 +4,12 @@ import { Poppins } from 'next/font/google'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
+import CategoryList from '@/app/_components/CategoryList'
+
+const categories = [
+  { altText: 'svg of a hamburger', pathName: 'dishes' },
+  { altText: 'svg of the leaning tower of pisa', pathName: 'landmarks' },
+]
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -37,6 +43,9 @@ export default function RootLayout({
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
         <Nav />
+        <div className="flex w-full max-w-screen-md justify-center self-center">
+          <CategoryList categories={categories} />
+        </div>
         <Toaster position="top-right" />
         {children}
       </body>

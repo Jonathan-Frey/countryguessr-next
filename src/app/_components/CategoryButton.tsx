@@ -1,27 +1,48 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+
+function isActivePath(search: string, path: string) {
+  if (path.length === 0 && path === search) {
+    return true
+  }
+  const uri = path.split('/')[1]
+  if (uri) {
+    return uri.includes(search)
+  } else {
+    return false
+  }
+}
 
 export default function CategoryButton(props: {
-  displayName: string
+  altText: string
   pathName: string
 }) {
+  const fullPathName = usePathname()
+  const [selected, setSelected] = useState(false)
+
+  useEffect(() => {
+    if (isActivePath(props.pathName, fullPathName)) {
+      setSelected(true)
+    } else {
+      setSelected(false)
+    }
+  }, [selected, fullPathName, props.pathName])
   return (
     <li
-      className="aspect-square w-full p-4 text-5xl sm:w-1/2"
+      className={`flex aspect-square w-12 rounded-lg border-2 border-tertiary ${selected && 'bg-secondary'}`}
       data-testid="category-button"
     >
-      <Link
-        href={`./${props.pathName}`}
-        className="relative flex h-full w-full items-center justify-center rounded-md border-2 border-tertiary hover:scale-105 hover:bg-secondary hover:transition-all"
-      >
-        <p>{props.displayName}</p>
+      <Link href={`/${props.pathName}`} className="relative h-full w-full">
         <Image
-          alt="placeholder icon"
-          src="/dish-card-bg.jpg"
-          width={512}
-          height={512}
-          className="absolute inset-0 -z-10 h-full w-full rounded-md"
-        />
+          src={`/${props.pathName}.svg`}
+          alt={props.altText}
+          fill
+          objectFit="cover"
+        ></Image>
       </Link>
     </li>
   )
