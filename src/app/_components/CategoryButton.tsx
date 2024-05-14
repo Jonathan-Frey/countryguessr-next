@@ -25,7 +25,7 @@ export default function CategoryButton(props: {
   const [selected, setSelected] = useState(false)
 
   useEffect(() => {
-    if (isActivePath(props.pathName, fullPathName)) {
+    if (fullPathName && isActivePath(props.pathName, fullPathName)) {
       setSelected(true)
     } else {
       setSelected(false)
