@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <main className="flex w-full max-w-screen-2xl grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4 lg:px-36">
+    <main className="flex w-full max-w-screen-md grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4">
       <div className="flex w-full flex-col lg:w-1/2">
         <div className="flex justify-end">
           <div className="flex">

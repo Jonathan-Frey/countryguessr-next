@@ -20,7 +20,6 @@ export default function DateSelector() {
   const [date, setDate] = useState(getDefaultDate(pathName))
   const [formattedDate, setFormattedDate] = useState('')
   const today = format(new Date(Date.now()), 'yyyy-MM-dd')
-  console.log('date:', new Date('2024-02-02'))
   const router = useRouter()
 
   const handlePrevDay = () => {
