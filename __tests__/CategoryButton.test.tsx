@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import CategoryButton from '@/app/_components/CategoryButton'
 
 const props = {
-  displayName: 'Dishes',
+  altText: 'an svg of an hamburger',
   pathName: 'dishes',
 }
 
@@ -12,14 +12,9 @@ describe('Category Button', () => {
     render(<CategoryButton {...props} />)
   })
 
-  it('renders the correct displayName', () => {
-    render(<CategoryButton {...props} />)
-    expect(screen.getByText(props.displayName)).toBeInTheDocument()
-  })
-
   it('renders a Link with the correct href', () => {
     render(<CategoryButton {...props} />)
     const link = screen.getByRole('link')
-    expect(link).toHaveAttribute('href', `./${props.pathName}`)
+    expect(link).toHaveAttribute('href', `/${props.pathName}`)
   })
 })

@@ -2,18 +2,29 @@
 
 import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+
+function getDefaultDate(pathName: string) {
+  const uris = pathName.split('/')
+  const date = uris[uris.length - 1]
+  const validFormatRegex = /^\d{4}-\d{2}-\d{2}$/
+  if (date && validFormatRegex.test(date)) {
+    return new Date(date)
+  } else {
+    return new Date()
+  }
+}
 
 export default function DateSelector() {
-  const [date, setDate] = useState(new Date())
+  const pathName = usePathname()
+  const [date, setDate] = useState(getDefaultDate(pathName))
   const [formattedDate, setFormattedDate] = useState('')
   const today = format(new Date(Date.now()), 'yyyy-MM-dd')
+  const router = useRouter()
 
   const handlePrevDay = () => {
     setDate(new Date(date.setDate(date.getDate() - 1)))
   }
-
-  const router = useRouter()
 
   const handleNextDay = () => {
     setDate(new Date(date.setDate(date.getDate() + 1)))

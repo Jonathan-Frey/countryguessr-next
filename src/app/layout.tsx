@@ -4,6 +4,12 @@ import { Poppins } from 'next/font/google'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
+import CategoryList from '@/app/_components/CategoryList'
+
+const categories = [
+  { altText: 'svg of a hamburger', pathName: 'dishes' },
+  { altText: 'svg of the leaning tower of pisa', pathName: 'landmarks' },
+]
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -37,6 +43,9 @@ export default function RootLayout({
         className={`font-sans ${poppins.variable} flex min-h-screen flex-col bg-primary text-text`}
       >
         <Nav />
+        <div className="flex w-full max-w-screen-md justify-center self-center">
+          <CategoryList categories={categories} />
+        </div>
         <Toaster position="top-right" />
         {children}
       </body>
@@ -47,20 +56,20 @@ export default function RootLayout({
 function Nav() {
   return (
     <header className="flex w-full justify-center">
-      <nav className="w-full max-w-screen-2xl">
+      <nav className="w-full max-w-screen-md border-b-2 border-tertiary sm:px-32 md:px-0">
         <ul className="flex w-full items-center justify-between px-4 py-2">
           <li>
             <Link href="./">
               <Image
                 alt="placeholder icon"
                 src="/placeholder.svg"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
               ></Image>
             </Link>
           </li>
           <li>
-            <Link href="/" className="text-5xl">
+            <Link href="/" className="text-xl">
               <h1>CountryGuessr</h1>
             </Link>
           </li>
@@ -69,8 +78,8 @@ function Nav() {
               <Image
                 alt="bug report icon"
                 src="/bug-report.svg"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
               ></Image>
             </Link>
           </li>

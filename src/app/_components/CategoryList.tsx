@@ -1,22 +1,18 @@
 import CategoryButton from './CategoryButton'
 
-interface Category {
-  displayName: string
-  pathName: string
-}
-
-interface CategoryListProps {
-  categories: Category[]
-}
-
-export default function CategoryList({ categories }: CategoryListProps) {
+export default function CategoryList(props: {
+  categories: {
+    altText: string
+    pathName: string
+  }[]
+}) {
   return (
-    <ul className="m-2 flex w-11/12 max-w-screen-2xl flex-col xl:w-2/3">
-      {categories.map((category) => {
+    <ul className="flex w-min gap-2 p-2">
+      {props.categories.map((category) => {
         return (
           <CategoryButton
             key={category.pathName}
-            displayName={category.displayName}
+            altText={category.altText}
             pathName={category.pathName}
           />
         )

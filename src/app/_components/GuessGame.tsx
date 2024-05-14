@@ -30,7 +30,7 @@ export default function GuessGame(props: {
   }, [guesses])
 
   return (
-    <main className="flex w-full max-w-screen-2xl grow flex-col items-center self-center p-4 text-2xl lg:flex-row lg:items-start lg:gap-4 lg:px-36">
+    <main className="flex w-full max-w-screen-md grow flex-col items-center self-center p-4 text-2xl md:flex-row md:items-start md:gap-4">
       {gameState.gameOver ? (
         <div className="flex flex-col">
           <h2 className="mb-4 w-fit self-center font-semibold">
@@ -44,7 +44,7 @@ export default function GuessGame(props: {
               width={512}
               height={512}
               alt="a food dish"
-              className="self-start rounded-xl object-contain lg:w-1/2"
+              className="self-start rounded-xl object-contain md:w-1/2"
             ></Image>
             <div className="flex flex-col lg:w-1/2">
               <h1 className="text-lg font-semibold">
@@ -66,7 +66,7 @@ export default function GuessGame(props: {
         </div>
       ) : (
         <>
-          <div className="flex w-full flex-col lg:w-1/2">
+          <div className="flex w-full flex-col sm:px-32 md:w-1/2 md:px-0">
             <div className="flex justify-end">
               <HintList guesses={guesses} hints={props.gameData.hints} />
             </div>
@@ -75,10 +75,10 @@ export default function GuessGame(props: {
               alt="A food dish"
               height={512}
               width={512}
-              className="w-full rounded-xl"
+              className="sm w-full rounded-xl"
             ></Image>
           </div>
-          <div className="mt-2 w-full lg:mt-8 lg:w-1/2">
+          <div className="mt-2 w-full sm:px-32 md:mt-8 md:w-1/2 md:px-0">
             <CountryInput
               guesses={guesses}
               setGuesses={setGuesses}

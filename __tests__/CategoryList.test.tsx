@@ -3,11 +3,8 @@ import '@testing-library/jest-dom'
 import CategoryList from '@/app/_components/CategoryList'
 
 const categories = [
-  { displayName: 'Dishes', pathName: 'dishes' },
-  { displayName: 'Dances', pathName: 'dances' },
-  { displayName: 'Clothing', pathName: 'clothing' },
-  { displayName: 'Landmarks', pathName: 'landmarks' },
-  { displayName: 'Festivals', pathName: 'festivals' },
+  { altText: 'an svg of a hanburger', pathName: 'dishes' },
+  { altText: 'an svg of the leaning tower of pisa', pathName: 'landmarks' },
 ]
 
 describe('Category List', () => {
@@ -19,12 +16,5 @@ describe('Category List', () => {
     render(<CategoryList categories={categories} />)
     const categoryButtons = screen.getAllByTestId('category-button')
     expect(categoryButtons).toHaveLength(categories.length)
-  })
-
-  it('renders each CategoryItem with the correct props', () => {
-    render(<CategoryList categories={categories} />)
-    categories.forEach((category) => {
-      expect(screen.getByText(category.displayName)).toBeInTheDocument()
-    })
   })
 })

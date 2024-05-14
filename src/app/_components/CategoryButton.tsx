@@ -1,23 +1,48 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+
+function isActivePath(search: string, path: string) {
+  if (path.length === 0 && path === search) {
+    return true
+  }
+  const uri = path.split('/')[1]
+  if (uri) {
+    return uri.includes(search)
+  } else {
+    return false
+  }
+}
 
 export default function CategoryButton(props: {
-  displayName: string
+  altText: string
   pathName: string
 }) {
+  const fullPathName = usePathname()
+  const [selected, setSelected] = useState(false)
+
+  useEffect(() => {
+    if (fullPathName && isActivePath(props.pathName, fullPathName)) {
+      setSelected(true)
+    } else {
+      setSelected(false)
+    }
+  }, [selected, fullPathName, props.pathName])
   return (
     <li
-      className=" w-full rounded-md border-b-2 border-tertiary text-5xl hover:scale-105 hover:bg-secondary hover:transition-all"
+      className={`flex aspect-square w-12 rounded-lg border-2 border-tertiary ${selected && 'bg-secondary'}`}
       data-testid="category-button"
     >
-      <Link href={`./${props.pathName}`} className="flex gap-8 p-2">
+      <Link href={`/${props.pathName}`} className="relative h-full w-full">
         <Image
-          alt="placeholder icon"
-          src="/placeholder.svg"
-          width={48}
-          height={48}
-        />
-        <p>{props.displayName}</p>
+          src={`/${props.pathName}.svg`}
+          alt={props.altText}
+          fill
+          objectFit="cover"
+        ></Image>
       </Link>
     </li>
   )
