@@ -7,6 +7,7 @@ import GuessList from '@/app/_components/GuessList'
 import HintList from '@/app/_components/HintList'
 import { type GameData } from '@/lib/types'
 import { useGuesses } from '@/lib/hooks'
+import { incrementTimesPlayed } from '@/app/_actions/guesses'
 
 export default function GuessGame(props: {
   gameData: GameData
@@ -27,10 +28,14 @@ export default function GuessGame(props: {
       ? setGameState({ gameOver: true, won: true })
       : guesses.length > 5 &&
         setGameState((prevState) => ({ ...prevState, gameOver: true }))
-  }, [guesses])
+    hasCorrectGuess &&
+      gameState.gameOver &&
+      incrementTimesPlayed(props.gameData.id)
+  }, [guesses, gameState.gameOver, props.gameData.id])
 
   return (
     <main className="flex w-full max-w-screen-md grow flex-col items-center self-center p-4 text-2xl md:flex-row md:items-start md:gap-4">
+      <h2>This game has been played {props.gameData.timesPlayed} times</h2>
       {gameState.gameOver ? (
         <div className="flex flex-col">
           <h2 className="mb-4 w-fit self-center text-xl font-semibold">

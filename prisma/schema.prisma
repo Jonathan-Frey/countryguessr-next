@@ -58,6 +58,7 @@ model Game {
   countryId          Int // Foreign key for Country
   product            String
   ProductInformation String  @db.Text
+  timesPlayed        Int     @default(0)
 
   @@unique([date, category])
 }
