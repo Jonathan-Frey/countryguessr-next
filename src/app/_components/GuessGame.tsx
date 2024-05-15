@@ -67,7 +67,8 @@ export default function GuessGame(props: {
       ) : (
         <>
           <div className="flex w-full flex-col sm:px-32 md:w-1/2 md:px-0">
-            <div className="flex justify-end">
+            <div className="flex items-end justify-between">
+              <h4 className="text-lg">Guesses left: {6 - guesses.length}</h4>
               <HintList guesses={guesses} hints={props.gameData.hints} />
             </div>
             <Image
