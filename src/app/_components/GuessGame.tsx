@@ -33,7 +33,7 @@ export default function GuessGame(props: {
     <main className="flex w-full max-w-screen-md grow flex-col items-center self-center p-4 text-2xl md:flex-row md:items-start md:gap-4">
       {gameState.gameOver ? (
         <div className="flex flex-col">
-          <h2 className="mb-4 w-fit self-center font-semibold">
+          <h2 className="mb-4 w-fit self-center text-xl font-semibold">
             {gameState.won
               ? `Congratulations, you guessed ${props.gameData.correctCountry.name} correctly in ${guesses.length} guesses!`
               : `Sorry, better luck next time! The correct country was ${props.gameData.correctCountry.name}`}
