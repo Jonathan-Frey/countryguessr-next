@@ -1,19 +1,38 @@
 import { useState } from 'react'
-import { getLocalGameData, setLocalGuesses } from '@/lib/helpers'
+import {
+  getLocalGameData,
+  getLocalIncrementFlag,
+  setLocalGameData,
+  setLocalIncrementFlag,
+} from '@/lib/helpers'
 import { type Guess } from './types'
 
 export function useGuesses(
-  date: string,
-  category: string,
+  gameId: number,
 ): [Guess[], (guesses: Guess[]) => void] {
-  const localGameData = getLocalGameData(date, category)
+  const localGameData = getLocalGameData(gameId)
   const localGuesses = localGameData?.guesses
   const [guesses, setLiveGuesses] = useState<Guess[]>(
     localGuesses ? localGuesses : [],
   )
   function setGuesses(guesses: Guess[]) {
     setLiveGuesses(guesses)
-    setLocalGuesses(guesses, date, category)
+    setLocalGameData(gameId, guesses)
   }
   return [guesses, setGuesses]
+}
+
+export function useIncrementFlag(
+  gameId: number,
+): [boolean, (value: boolean) => void] {
+  const localIncrementFlag = getLocalIncrementFlag(gameId)
+  const [incrementFlag, setLiveIncrementFlag] = useState<boolean>(
+    localIncrementFlag ? localIncrementFlag : false,
+  )
+
+  function setIncrementFlag(value: boolean) {
+    setLiveIncrementFlag(value)
+    setLocalIncrementFlag(gameId, value)
+  }
+  return [incrementFlag, setIncrementFlag]
 }

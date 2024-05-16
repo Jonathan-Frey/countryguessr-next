@@ -42,10 +42,8 @@ export function isValidLocalGameData(obj: unknown): obj is LocalGameData {
   return (
     typeof obj === 'object' &&
     obj !== null &&
-    'date' in obj &&
-    typeof obj.date === 'string' &&
-    'category' in obj &&
-    typeof obj.category === 'string' &&
+    'gameId' in obj &&
+    typeof obj.gameId === 'number' &&
     'guesses' in obj &&
     Array.isArray(obj.guesses) &&
     obj.guesses.every(isValidGuess)

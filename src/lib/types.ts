@@ -72,7 +72,7 @@ export type Guess = {
 }
 
 export type LocalGameData = {
-  date: string
-  category: string
+  gameId: number
   guesses: Guess[]
+  incremented: boolean
 }
