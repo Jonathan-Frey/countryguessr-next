@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Game` ADD COLUMN `timesPlayed` INTEGER NOT NULL DEFAULT 0;

@@ -8,7 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Necessary for Next auth
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -27,6 +26,7 @@ model Account {
   user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
 }
 
 model Session {
@@ -35,6 +35,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Session_userId_fkey")
 }
 
 model User {
@@ -52,15 +54,16 @@ model Game {
   id                 Int     @id @default(autoincrement())
   date               String
   image              String
-  hints              Hint[] // Relation to multiple hints
-  category           String // Category of the game
-  correctCountry     Country @relation(fields: [countryId], references: [id])
-  countryId          Int // Foreign key for Country
+  category           String
+  countryId          Int
   product            String
   ProductInformation String  @db.Text
   timesPlayed        Int     @default(0)
+  correctCountry     Country @relation(fields: [countryId], references: [id])
+  hints              Hint[]
 
   @@unique([date, category])
+  @@index([countryId], map: "Game_countryId_fkey")
 }
 
 model Hint {
@@ -69,6 +72,8 @@ model Hint {
   content String @db.Text
   gameId  Int?
   Game    Game?  @relation(fields: [gameId], references: [id])
+
+  @@index([gameId], map: "Hint_gameId_fkey")
 }
 
 model VerificationToken {
@@ -79,7 +84,6 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// Country Model Definition
 model Country {
   id           Int             @id @default(autoincrement())
   name         String          @unique
@@ -89,19 +93,19 @@ model Country {
   largeFlag    String
   latitude     Float
   longitude    Float
-  borders      CountryBorder[] @relation("CountryBorders")
   borderedBy   CountryBorder[] @relation("BorderedBy")
+  borders      CountryBorder[] @relation("CountryBorders")
   games        Game[]
 }
 
 model CountryBorder {
   countryId       Int
   borderCountryId Int
-
-  country       Country @relation("CountryBorders", fields: [countryId], references: [id])
-  borderCountry Country @relation("BorderedBy", fields: [borderCountryId], references: [id])
+  borderCountry   Country @relation("BorderedBy", fields: [borderCountryId], references: [id])
+  country         Country @relation("CountryBorders", fields: [countryId], references: [id])
 
   @@id([countryId, borderCountryId])
+  @@index([borderCountryId], map: "CountryBorder_borderCountryId_fkey")
 }
 
 model Image {
