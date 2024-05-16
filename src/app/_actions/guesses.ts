@@ -69,3 +69,17 @@ export async function checkAnswer(
     return data
   }
 }
+
+export async function incrementTimesPlayed(gameId: number) {
+  const result = await db.game.update({
+    where: {
+      id: gameId,
+    },
+    data: {
+      timesPlayed: {
+        increment: 1,
+      },
+    },
+  })
+  return result
+}
