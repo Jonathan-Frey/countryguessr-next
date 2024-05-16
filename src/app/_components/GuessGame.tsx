@@ -8,6 +8,7 @@ import HintList from '@/app/_components/HintList'
 import { type GameData } from '@/lib/types'
 import { useGuesses, useIncrementFlag } from '@/lib/hooks'
 import { incrementTimesPlayed } from '@/app/_actions/guesses'
+import EndOfGame from './EndOfGame'
 
 export default function GuessGame(props: {
   gameData: GameData
@@ -49,38 +50,11 @@ export default function GuessGame(props: {
     <main className="flex w-full max-w-screen-md grow flex-col items-center self-center px-4 text-2xl">
       <h2 className="text-sm">Played {props.gameData.timesPlayed} times!</h2>
       {gameState.gameOver ? (
-        <div className="flex flex-col">
-          <h2 className="mb-4 w-fit self-center text-xl font-semibold">
-            {gameState.won
-              ? `Congratulations, you guessed ${props.gameData.correctCountry.name} correctly in ${guesses.length} guesses!`
-              : `Sorry, better luck next time! The correct country was ${props.gameData.correctCountry.name}`}
-          </h2>
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <Image
-              src={props.gameData.image}
-              width={512}
-              height={512}
-              alt="a food dish"
-              className="self-start rounded-xl object-contain md:w-1/2"
-            ></Image>
-            <div className="flex flex-col lg:w-1/2">
-              <h1 className="text-lg font-semibold">
-                {props.gameData.product}
-              </h1>
-              <p className="py-4 text-base">
-                {props.gameData.ProductInformation}
-              </p>
-              <h4 className="text-base font-semibold">Hints</h4>
-              <ul className="flex flex-col gap-4">
-                {props.gameData.hints.map((hint) => (
-                  <li key={hint.content}>
-                    <p className="text-base">{hint.content}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
+        <EndOfGame
+          gameState={gameState}
+          gameData={props.gameData}
+          guesses={guesses}
+        />
       ) : (
         <div className="flex w-full flex-col md:flex-row md:items-start md:gap-4">
           <div className="flex w-full flex-col sm:px-16 md:w-1/2 md:px-0">

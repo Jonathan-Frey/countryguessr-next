@@ -71,3 +71,14 @@ export function setLocalIncrementFlag(gameId: number, value: boolean) {
   })
   localStorage.setItem('countryguessr-guesses', JSON.stringify(updatedGameData))
 }
+
+export function getStatsArray() {
+  const allLocalGameData = getAllLocalGameData()
+  const statsArray = [0, 0, 0, 0, 0, 0, 0]
+  if (allLocalGameData) {
+    allLocalGameData?.forEach((data) => {
+      statsArray[data.guesses.length - 1] += 1
+    })
+  }
+  return statsArray
+}
