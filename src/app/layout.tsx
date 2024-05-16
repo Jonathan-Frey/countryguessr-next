@@ -56,7 +56,7 @@ export default function RootLayout({
 function Nav() {
   return (
     <header className="flex w-full justify-center">
-      <nav className="w-full max-w-screen-md border-b-2 border-tertiary sm:px-32 md:px-0">
+      <nav className="w-full max-w-screen-md border-b-2 border-tertiary sm:px-16 md:px-0">
         <ul className="flex w-full items-center justify-between px-4 py-2">
           <li>
             <Link href="./">
