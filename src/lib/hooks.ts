@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   getLocalGameData,
   getLocalIncrementFlag,
+  getStatsArray,
   setLocalGameData,
   setLocalIncrementFlag,
 } from '@/lib/helpers'
-import { type Guess } from './types'
+import { type Guess } from '@/lib/types'
 
 export function useGuesses(
   gameId: number,
@@ -35,4 +36,22 @@ export function useIncrementFlag(
     setLocalIncrementFlag(gameId, value)
   }
   return [incrementFlag, setIncrementFlag]
+}
+
+export function useStats(): [number[], number] {
+  const [statsArray, setStatsArray] = useState([0, 0, 0, 0, 0, 0, 0])
+  const [totalGames, setTotalGames] = useState(0)
+
+  useEffect(() => {
+    const stats = getStatsArray()
+    setStatsArray(stats)
+  }, [])
+
+  useEffect(() => {
+    const sum = statsArray.reduce((a, b) => a + b, 0)
+
+    setTotalGames(sum)
+  }, [totalGames, setTotalGames, statsArray])
+
+  return [statsArray, totalGames]
 }
