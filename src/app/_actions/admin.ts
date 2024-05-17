@@ -4,10 +4,12 @@ import { db } from '@/server/db'
 import { gameSchema, type GameFormData } from '@/lib/types'
 import { getErrorMessage, isErrorWithCode } from '@/lib/typeValidators'
 import { revalidatePath } from 'next/cache'
+import { isSessionAndAdminOrThrow } from '@/lib/helpers'
 
 export async function createImage(file: File) {
-  let savedImage
   try {
+    await isSessionAndAdminOrThrow()
+    let savedImage
     if (file && file.size > 0) {
       const imageData = Buffer.from(await file.arrayBuffer())
       savedImage = await db.image.create({
@@ -25,6 +27,7 @@ export async function createImage(file: File) {
 
 export async function createGame(formData: FormData) {
   try {
+    await isSessionAndAdminOrThrow()
     const gameData: Partial<GameFormData> = Object.fromEntries(formData)
     gameData.hints = []
 
@@ -103,6 +106,7 @@ export async function createGame(formData: FormData) {
 
 export async function deleteGame(gameId: number) {
   try {
+    await isSessionAndAdminOrThrow()
     const data = await db.game.findFirst({
       where: {
         id: gameId,
