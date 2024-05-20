@@ -53,7 +53,20 @@ export default function CountryInput(props: {
   async function submitAnswer(countryName: string) {
     setInputValue('')
     const response = await checkAnswer(countryName, props.category, props.date)
-    response && props.setGuesses([...props.guesses, response])
+    if (response) {
+      const sortedGuesses = [...props.guesses, response].sort((a, b) => {
+        if (a.isBordering) {
+          return -1
+        }
+        if (b.isBordering) {
+          return 1
+        }
+        const distanceA = parseInt(a.distance.replace(/[\skm]/g, ''))
+        const distanceB = parseInt(b.distance.replace(/[\skm]/g, ''))
+        return distanceA - distanceB
+      })
+      props.setGuesses(sortedGuesses)
+    }
     if (countryInputRef.current) {
       countryInputRef.current.focus()
     }
