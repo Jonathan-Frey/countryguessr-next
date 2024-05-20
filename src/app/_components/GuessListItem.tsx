@@ -4,9 +4,11 @@ import { type Guess } from '@/lib/types'
 
 export default function GuessListItem(props: { guess: Guess }) {
   return (
-    <li className="flex border-b border-tertiary py-1">
+    <li className="flex border-b border-tertiary p-1">
       <h3 className="w-1/2">{props.guess.country}</h3>
-      <p className="w-1/2">{props.guess.distance}</p>
+      <p className="w-1/2">
+        {props.guess.isBordering ? 'Bordering!' : props.guess.distance}
+      </p>
       <Image
         src="/north-arrow.svg"
         alt="arrow pointing north"

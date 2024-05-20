@@ -44,23 +44,23 @@ export default function HintItem(props: {
       )}
       {active && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm backdrop-brightness-50"
+          className="fixed inset-0 z-50 flex justify-center pt-36 backdrop-blur-sm backdrop-brightness-50"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setActive(false)
             }
           }}
         >
-          <div className="sm: flex w-10/12 flex-col rounded-lg bg-tertiary text-base shadow-2xl sm:w-3/5 sm:text-xl">
+          <div className="flex h-min w-2/3 flex-col rounded-lg bg-secondary text-base shadow-2xl sm:w-1/2 sm:text-lg">
             <button
-              className="h-8 w-8 self-end hover:text-primary"
+              className="h-8 w-8 self-end hover:text-alert"
               onClick={() => {
                 setActive(false)
               }}
             >
               ✖
             </button>
-            <p className="px-4 pb-4">{props.data.content}</p>
+            <p className="px-8 pb-8">{props.data.content}</p>
           </div>
         </div>
       )}

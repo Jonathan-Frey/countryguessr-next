@@ -19,7 +19,19 @@ export async function checkAnswer(
       },
     },
     select: {
-      correctCountry: true, // Include related hints
+      correctCountry: {
+        include: {
+          borders: {
+            select: {
+              borderCountry: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   })
 
@@ -58,12 +70,23 @@ export async function checkAnswer(
       },
     )
 
+    const borderingArray = correctCountry.borders.filter((border) => {
+      return border.borderCountry.name === guessedCountry.name
+    })
+
+    let isBordering = false
+
+    if (borderingArray.length > 0) {
+      isBordering = true
+    }
+
     const data = {
       country: guessedCountry.name,
       distance,
       bearing,
       correct: guessedCountry.name === correctCountry.name ? true : false,
       flag: guessedCountry.smallFlag,
+      isBordering,
     }
 
     return data

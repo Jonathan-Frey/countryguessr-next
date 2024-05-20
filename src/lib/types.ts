@@ -69,6 +69,7 @@ export type Guess = {
   bearing: number
   correct: boolean
   flag: string
+  isBordering: boolean
 }
 
 export type LocalGameData = {
