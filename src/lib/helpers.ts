@@ -1,6 +1,5 @@
 import { isValidLocalGameData } from '@/lib/typeValidators'
 import { type LocalGameData, type Guess } from '@/lib/types'
-import { getServerAuthSession } from '@/server/auth'
 
 export function setLocalGameData(gameId: number, guesses: Guess[]) {
   let allLocalGameData = getAllLocalGameData()
@@ -82,11 +81,4 @@ export function getStatsArray() {
     })
   }
   return statsArray
-}
-
-export async function isSessionAndAdminOrThrow() {
-  const session = await getServerAuthSession()
-  if (!session || session.user.role !== 'admin') {
-    throw new Error('unauthorized')
-  }
 }

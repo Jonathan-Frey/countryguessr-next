@@ -23,7 +23,7 @@ export default async function Page(props: { params: { date: string } }) {
         equals: format(props.params.date, 'yyyy-MM-dd'),
       },
       category: {
-        equals: 'Dish',
+        equals: 'dish',
       },
     },
     include: {

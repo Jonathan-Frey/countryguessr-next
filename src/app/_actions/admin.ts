@@ -4,7 +4,7 @@ import { db } from '@/server/db'
 import { gameSchema, type GameFormData } from '@/lib/types'
 import { getErrorMessage, isErrorWithCode } from '@/lib/typeValidators'
 import { revalidatePath } from 'next/cache'
-import { isSessionAndAdminOrThrow } from '@/lib/helpers'
+import { isSessionAndAdminOrThrow } from '@/lib/auth'
 
 export async function createImage(file: File) {
   try {
@@ -106,7 +106,6 @@ export async function createGame(formData: FormData) {
 
 export async function deleteGame(gameId: number) {
   try {
-    await isSessionAndAdminOrThrow()
     const data = await db.game.findFirst({
       where: {
         id: gameId,

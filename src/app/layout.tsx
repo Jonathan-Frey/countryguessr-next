@@ -9,6 +9,8 @@ import CategoryList from '@/app/_components/CategoryList'
 const categories = [
   { altText: 'svg of a hamburger', pathName: 'dishes' },
   { altText: 'svg of the leaning tower of pisa', pathName: 'landmarks' },
+  { altText: 'svg of a painting', pathName: 'art' },
+  { altText: 'svg of a firework rocket', pathName: 'celebrations' },
 ]
 
 const poppins = Poppins({
