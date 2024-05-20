@@ -9,7 +9,7 @@ export default function GuessList(props: { guesses: Guess[] }) {
   }, [])
 
   return (
-    <ul className="flex flex-col p-2 text-base">
+    <ul className="flex flex-col p-2 pt-1 text-base">
       {isClient
         ? props.guesses.map((guess) => (
             <GuessListItem key={guess.country} guess={guess} />
