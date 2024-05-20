@@ -64,7 +64,7 @@ export default function CountryInput(props: {
         onKeyDown={(e) => handleKeyDown(e)}
       />
       {matches.length > 0 ? (
-        <ul className="absolute flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-b-lg border-b-2 border-l-2 border-r-2 border-tertiary bg-white text-lg">
+        <ul className="absolute z-10 flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-b-lg border-b-2 border-l-2 border-r-2 border-tertiary bg-white text-lg">
           {matches.map((match, index) => {
             if (index < 5) {
               return (
@@ -80,7 +80,7 @@ export default function CountryInput(props: {
           })}
         </ul>
       ) : inputValue.length > 0 ? (
-        <div className="absolute flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-lg rounded-t-none border-2 border-t-0 border-tertiary bg-white px-2 py-1 text-lg text-red-500">
+        <div className="absolute z-10 flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-lg rounded-t-none border-2 border-t-0 border-tertiary bg-white px-2 py-1 text-lg text-red-500">
           No Matches...
         </div>
       ) : null}
