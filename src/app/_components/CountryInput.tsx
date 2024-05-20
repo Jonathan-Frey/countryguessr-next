@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { checkAnswer } from '@/app/_actions/guesses'
 import { type Guess } from '@/lib/types'
 
@@ -13,6 +13,7 @@ export default function CountryInput(props: {
 }) {
   const [inputValue, setInputValue] = useState('')
   const [matches, setMatches] = useState<string[]>([])
+  const countryInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (inputValue.length > 0) {
@@ -29,6 +30,20 @@ export default function CountryInput(props: {
         })
         return isNotGuessed
       })
+
+      notGuessedMatches.sort((a, b) => {
+        const indexA = a.toLowerCase().indexOf(inputValue.toLowerCase())
+        const indexB = b.toLowerCase().indexOf(inputValue.toLowerCase())
+
+        // If both matches start at the same index, prioritize shorter matches
+        if (indexA === indexB) {
+          return a.length - b.length
+        }
+
+        // Prioritize matches that start earlier in the string
+        return indexA - indexB
+      })
+
       setMatches(notGuessedMatches)
     } else {
       setMatches([])
@@ -38,12 +53,34 @@ export default function CountryInput(props: {
   async function submitAnswer(countryName: string) {
     setInputValue('')
     const response = await checkAnswer(countryName, props.category, props.date)
-    response && props.setGuesses([...props.guesses, response])
+    if (response) {
+      const sortedGuesses = [...props.guesses, response].sort((a, b) => {
+        if (a.isBordering) {
+          return -1
+        }
+        if (b.isBordering) {
+          return 1
+        }
+        const distanceA = parseInt(a.distance.replace(/[\skm]/g, ''))
+        const distanceB = parseInt(b.distance.replace(/[\skm]/g, ''))
+        return distanceA - distanceB
+      })
+      props.setGuesses(sortedGuesses)
+    }
+    if (countryInputRef.current) {
+      countryInputRef.current.focus()
+    }
   }
 
-  async function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter' && matches[0]) {
-      await submitAnswer(matches[0])
+  async function handleKeyDown(e: React.KeyboardEvent, match?: string) {
+    if (match) {
+      if (e.key === 'Enter') {
+        await submitAnswer(match)
+      }
+    } else {
+      if (e.key === 'Enter' && matches[0]) {
+        await submitAnswer(matches[0])
+      }
     }
   }
 
@@ -54,6 +91,7 @@ export default function CountryInput(props: {
   return (
     <div className="relative">
       <input
+        ref={countryInputRef}
         type="text"
         name="country-search"
         id="country-search"
@@ -70,8 +108,10 @@ export default function CountryInput(props: {
               return (
                 <li
                   key={match}
-                  className="px-2 py-1 hover:bg-secondary"
+                  className="px-2 py-1 hover:bg-secondary focus:bg-secondary"
                   onClick={() => handleMatchOnClick(match)}
+                  onKeyDown={(e) => handleKeyDown(e, match)}
+                  tabIndex={0}
                 >
                   {match}
                 </li>
