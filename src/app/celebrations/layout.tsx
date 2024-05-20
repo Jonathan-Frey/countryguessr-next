@@ -4,7 +4,7 @@ import DateSelector from '../_components/DateSelector'
 export default function layout(props: { children: React.ReactNode }) {
   return (
     <>
-      <DateSelector category="dishes"></DateSelector>
+      <DateSelector category="celebrations"></DateSelector>
       {props.children}
     </>
   )

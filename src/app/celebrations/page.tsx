@@ -12,7 +12,7 @@ export default async function Page() {
         equals: format(new Date(Date.now()), 'yyyy-MM-dd'),
       },
       category: {
-        equals: 'dish',
+        equals: 'celebration',
       },
     },
     include: {

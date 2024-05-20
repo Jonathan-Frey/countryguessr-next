@@ -15,7 +15,7 @@ function getDefaultDate(pathName: string) {
   }
 }
 
-export default function DateSelector() {
+export default function DateSelector(props: { category: string }) {
   const pathName = usePathname()
   const [date, setDate] = useState(getDefaultDate(pathName))
   const [formattedDate, setFormattedDate] = useState('')
@@ -36,9 +36,9 @@ export default function DateSelector() {
 
   useEffect(() => {
     formattedDate === today
-      ? router.push('/dishes')
-      : router.push(`/dishes/${formattedDate}`)
-  }, [formattedDate, router, today])
+      ? router.push(`/${props.category}`)
+      : router.push(`/${props.category}/${formattedDate}`)
+  }, [formattedDate, router, today, props.category])
 
   return (
     <div className="relative flex gap-2 self-center">

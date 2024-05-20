@@ -117,7 +117,9 @@ export default function CreateGameForm(props: {
 
         <select name="category" className="m-2">
           <option value="dish">Dish</option>
-          <option value="dance">Dance</option>
+          <option value="landmark">Landmark</option>
+          <option value="celebration">Celebration</option>
+          <option value="art">Art</option>
         </select>
 
         <label htmlFor="product" className="mx-2">
