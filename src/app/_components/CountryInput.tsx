@@ -58,19 +58,19 @@ export default function CountryInput(props: {
         name="country-search"
         id="country-search"
         placeholder="Enter a Country Name"
-        className="w-full rounded-md border-2 border-tertiary px-2 py-1 text-lg"
+        className={`w-full rounded-md border-2 border-tertiary bg-gray-50 px-2 py-1 text-lg ${inputValue.length > 0 && 'rounded-b-none'}`}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={(e) => handleKeyDown(e)}
       />
       {matches.length > 0 ? (
-        <ul className="absolute flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-b-lg border-b-2 border-l-2 border-r-2 border-tertiary bg-white">
+        <ul className="absolute flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-b-lg border-b-2 border-l-2 border-r-2 border-tertiary bg-white text-lg">
           {matches.map((match, index) => {
-            if (index < 10) {
+            if (index < 5) {
               return (
                 <li
                   key={match}
-                  className="p-2 hover:bg-secondary"
+                  className="px-2 py-1 hover:bg-secondary"
                   onClick={() => handleMatchOnClick(match)}
                 >
                   {match}
@@ -80,7 +80,7 @@ export default function CountryInput(props: {
           })}
         </ul>
       ) : inputValue.length > 0 ? (
-        <div className="absolute flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-lg border-2 border-tertiary bg-white p-2">
+        <div className="absolute flex w-full flex-col divide-y-2 divide-tertiary overflow-hidden rounded-lg rounded-t-none border-2 border-t-0 border-tertiary bg-white px-2 py-1 text-lg text-red-500">
           No Matches...
         </div>
       ) : null}
