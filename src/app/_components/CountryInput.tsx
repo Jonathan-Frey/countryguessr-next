@@ -30,6 +30,20 @@ export default function CountryInput(props: {
         })
         return isNotGuessed
       })
+
+      notGuessedMatches.sort((a, b) => {
+        const indexA = a.toLowerCase().indexOf(inputValue.toLowerCase())
+        const indexB = b.toLowerCase().indexOf(inputValue.toLowerCase())
+
+        // If both matches start at the same index, prioritize shorter matches
+        if (indexA === indexB) {
+          return a.length - b.length
+        }
+
+        // Prioritize matches that start earlier in the string
+        return indexA - indexB
+      })
+
       setMatches(notGuessedMatches)
     } else {
       setMatches([])
