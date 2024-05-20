@@ -36,7 +36,7 @@ const config = {
         },
       },
     ],
-    'prettier/prettier': ['error'],
+    'prettier/prettier': ['warn'],
   },
 }
 module.exports = config
