@@ -31,6 +31,10 @@ export default function DateSelector(props: { category: string }) {
   }
 
   useEffect(() => {
+    setDate(getDefaultDate(pathName))
+  }, [pathName])
+
+  useEffect(() => {
     setFormattedDate(format(date, 'yyyy-MM-dd'))
   }, [date])
 
