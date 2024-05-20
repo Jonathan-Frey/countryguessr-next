@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
 import CategoryList from '@/app/_components/CategoryList'
-import { FaPatreon, FaLinkedin, FaDiscord } from 'react-icons/fa6'
+import { FaPatreon, FaLinkedin, FaScroll, FaBug } from 'react-icons/fa6'
 
 const categories = [
   { altText: 'svg of a hamburger', pathName: 'dishes' },
@@ -64,34 +64,10 @@ export default function RootLayout({
 function Nav() {
   return (
     <header className="flex w-full justify-center">
-      <nav className="w-full max-w-screen-md border-b-2 border-tertiary sm:px-16 md:px-0">
-        <ul className="flex w-full items-center justify-between px-4 py-2">
-          <li>
-            <Link href="./">
-              <Image
-                alt="placeholder icon"
-                src="/placeholder.svg"
-                width={24}
-                height={24}
-              ></Image>
-            </Link>
-          </li>
-          <li>
-            <Link href="/" className="text-xl">
-              <h1>CountryGuessr</h1>
-            </Link>
-          </li>
-          <li>
-            <Link href="./report">
-              <Image
-                alt="bug report icon"
-                src="/bug-report.svg"
-                width={24}
-                height={24}
-              ></Image>
-            </Link>
-          </li>
-        </ul>
+      <nav className="flex w-full max-w-screen-md items-center justify-center border-b-2 border-tertiary px-4 py-2 sm:px-16 md:px-0">
+        <Link href="/" className="text-xl">
+          <h1>CountryGuessr</h1>
+        </Link>
       </nav>
     </header>
   )
