@@ -2,10 +2,9 @@ import '@/styles/globals.css'
 import Script from 'next/script'
 import { Poppins } from 'next/font/google'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
 import CategoryList from '@/app/_components/CategoryList'
-import { FaPatreon, FaLinkedin, FaScroll, FaBug } from 'react-icons/fa6'
+import { FaPatreon, FaLinkedin } from 'react-icons/fa6'
 
 const categories = [
   { altText: 'svg of a hamburger', pathName: 'dishes' },
