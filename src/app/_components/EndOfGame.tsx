@@ -29,12 +29,12 @@ export default function EndOfGame(props: {
         </h2>
       </div>
       <div className="flex flex-col justify-center gap-4 md:flex-row">
-        <div className="flex flex-col items-center gap-4 self-start md:w-1/2">
+        <div className="flex w-full flex-col items-center gap-4 self-start md:w-1/2">
           <Image
             src={props.gameData.image}
             width={512}
             height={512}
-            alt="a food dish"
+            alt="The item to guess"
             className="w-full rounded-lg"
           ></Image>
           <div className="flex w-full flex-col rounded-lg border-2 border-tertiary p-6 text-base">
