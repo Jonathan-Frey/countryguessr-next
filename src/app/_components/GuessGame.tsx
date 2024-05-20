@@ -59,15 +59,20 @@ export default function GuessGame(props: {
         <div className="flex w-full flex-col md:flex-row md:items-start md:gap-4">
           <div className="flex w-full flex-col sm:px-16 md:w-1/2 md:px-0">
             <div className="flex items-end justify-between">
-              <h4 className="text-lg">Guesses left: {guessesLeft}</h4>
+              <h4 className="flex items-center text-lg">
+                <span className="mr-2">Guesses left:</span>
+                <span className="animate-pulse bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-xl text-transparent">
+                  {guessesLeft}
+                </span>
+              </h4>
               <HintList guesses={guesses} hints={props.gameData.hints} />
             </div>
             <Image
               src={props.gameData.image}
-              alt="A food dish"
+              alt="The item to guess"
               height={512}
               width={512}
-              className="sm w-full rounded-xl"
+              className="sm w-full rounded-lg"
             ></Image>
           </div>
           <div className="mt-2 w-full sm:px-16 md:mt-8 md:w-1/2 md:px-0">
