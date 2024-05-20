@@ -34,7 +34,9 @@ export function isValidGuess(obj: unknown): obj is Guess {
     'correct' in obj &&
     typeof (obj as Guess).correct === 'boolean' &&
     'flag' in obj &&
-    typeof (obj as Guess).flag === 'string'
+    typeof (obj as Guess).flag === 'string' &&
+    'isBordering' in obj &&
+    typeof (obj as Guess).isBordering === 'boolean'
   )
 }
 
