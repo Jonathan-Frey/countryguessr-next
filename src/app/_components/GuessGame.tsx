@@ -36,14 +36,10 @@ export default function GuessGame(props: {
   }, [guesses, gameState.gameOver, props.gameData.id])
 
   useEffect(() => {
-    async function incrementHandler() {
-      if (incrementFlag === false && gameState.gameOver) {
-        await incrementTimesPlayed(props.gameData.id)
-        setIncrementFlag(true)
-      }
+    if (incrementFlag === false && gameState.gameOver) {
+      void incrementTimesPlayed(props.gameData.id)
+      setIncrementFlag(true)
     }
-
-    void incrementHandler()
   }, [gameState.gameOver, incrementFlag, setIncrementFlag, props.gameData.id])
 
   return (
