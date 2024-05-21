@@ -46,7 +46,7 @@ export default function EndOfGame(props: {
                     {index === 6 ? 'X' : index + 1}
                   </span>
                   <div className="flex h-4 flex-grow rounded-full bg-gray-200">
-                    <div className="animate-grow w-full">
+                    <div className="w-full animate-grow">
                       <div
                         className={`relative flex h-full items-center rounded-full ${index === 6 ? 'bg-red-400' : 'bg-blue-400'}`}
                         style={{ width: `${(stat / totalGames) * 100}%` }}
