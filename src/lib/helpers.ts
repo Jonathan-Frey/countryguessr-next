@@ -77,7 +77,15 @@ export function getStatsArray() {
   const statsArray = [0, 0, 0, 0, 0, 0, 0]
   if (allLocalGameData) {
     allLocalGameData?.forEach((data) => {
-      statsArray[data.guesses.length - 1] += 1
+      let hasCorrectGuess = false
+      data.guesses.forEach((guess) => {
+        guess.correct && (hasCorrectGuess = true)
+      })
+      if (hasCorrectGuess) {
+        statsArray[data.guesses.length - 1] += 1
+      } else {
+        statsArray[6] += 1
+      }
     })
   }
   return statsArray
