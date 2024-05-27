@@ -16,8 +16,12 @@ export function Banner() {
   }
 
   return (
-    <div className={`${consentFlag ? 'hidden' : ''}`}>
-      <h1>We Value Your Privacy</h1>
+    <div
+      className={`fixed bottom-0 left-0 right-0 flex flex-col gap-4 border-2 border-tertiary bg-primary p-4 ${consentFlag ? 'hidden' : ''}`}
+    >
+      <h1 className="border-b-2 border-slate-300 text-lg font-semibold">
+        We Value Your Privacy
+      </h1>
       <p>
         Our website uses cookies and similar technologies to enhance your
         browsing experience and ensure the application works correctly. All the
@@ -30,6 +34,7 @@ export function Banner() {
         onClick={() => {
           setConsentFlag(true)
         }}
+        className="bg-secondary px-2 py-1 hover:bg-tertiary"
       >
         OK
       </button>
