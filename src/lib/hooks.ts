@@ -55,3 +55,27 @@ export function useStats(): [number[], number] {
 
   return [statsArray, totalGames]
 }
+
+export function useConsentFlag(): [boolean, (value: boolean) => void] {
+  const itemName = 'countryguessr-consent-flag'
+  const [consentFlag, setLiveConsentFlag] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const localDataJSON = localStorage.getItem(itemName)
+      if (localDataJSON && localDataJSON.length > 0) {
+        const localData = JSON.parse(localDataJSON) as unknown
+        if (typeof localData === 'boolean') {
+          setLiveConsentFlag(localData)
+        }
+      }
+    }
+  }, [])
+
+  function setConsentFlag(value: boolean) {
+    localStorage.setItem(itemName, `${value}`)
+    setLiveConsentFlag(value)
+  }
+
+  return [consentFlag, setConsentFlag]
+}
