@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Toaster } from 'react-hot-toast'
 import CategoryList from '@/app/_components/CategoryList'
 import { FaPatreon, FaLinkedin } from 'react-icons/fa6'
+import { Banner } from './_components/Banner'
 
 const categories = [
   { altText: 'svg of a hamburger', pathName: 'dishes' },
@@ -51,6 +52,7 @@ export default function RootLayout({
               <CategoryList categories={categories} />
             </div>
             <Toaster position="top-right" />
+            <Banner />
             {children}
           </div>
           <Footer />
